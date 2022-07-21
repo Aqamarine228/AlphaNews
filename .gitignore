@@ -19,5 +19,7 @@ Thumbs.db
 .env.php
 bump-version.sh
 
+.php-cs-fixer.cache
+
 # vscode phpunit
 .phpunit.result.cache
