@@ -34,8 +34,9 @@ class ServiceProvider extends ParentProvider
 
         Route::group([
             'prefix' => config('alphanews.panel.path', 'alphanews'),
+            'as' => config('alphanews.panel.route_name_prefix', 'alphanews').'.',
             'namespace' => 'AlphaNews\Http\Controllers',
-            'middleware' => config('alphanews.panel.middleware', 'web'),
+            'middleware' => config('alphanews.panel.middleware', ['web']),
         ], function () {
             $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         });

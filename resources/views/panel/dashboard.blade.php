@@ -1,4 +1,12 @@
-@extends('alphanews::panel.layout')
+@extends('alphanews::panel.layout.layout')
+
+@section('title')
+    Dashboard
+@endsection
+
+@section('breadcrumb')
+    <li class="breadcrumb-item active">Dashboard</li>
+@endsection
 
 @section('content')
     <div class="card">
