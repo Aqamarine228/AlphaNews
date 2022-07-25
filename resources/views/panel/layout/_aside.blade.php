@@ -17,8 +17,52 @@
                             Dashboard
                         </p>
                     </a>
-
                 </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <em class="nav-icon fas fa-newspaper"></em>
+                        <p>
+                            UI Posts
+                            <em class="fas fa-angle-left right"></em>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="display: none;">
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.posts.index') }}" class="nav-link">
+                                <em class="far fa-circle nav-icon"></em>
+                                <p>My Posts</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.posts.all') }}" class="nav-link">
+                                <em class="far fa-circle nav-icon"></em>
+                                <p>All Posts</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="document.getElementById('post-create').submit()">
+                                <em class="far fa-circle nav-icon"></em>
+                                <p>Add new</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.post-categories.index') }}" class="nav-link">
+                                <em class="far fa-circle nav-icon"></em>
+                                <p>Post Categories</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{{ route('admin.tags.index') }}" class="nav-link">
+                                <em class="far fa-circle nav-icon"></em>
+                                <p>Tags</p>
+                            </a>
+                        </li>
+                    </ul>
             </ul>
         </nav>
     </div>
