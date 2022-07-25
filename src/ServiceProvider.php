@@ -11,6 +11,7 @@ class ServiceProvider extends ParentProvider
     {
         $this->registerRoutes();
         $this->registerResources();
+        $this->registerMigrationsPublishing();
         $this->registerAssetPublishing();
         $this->registerConfigPublishing();
     }
@@ -28,15 +29,11 @@ class ServiceProvider extends ParentProvider
      */
     protected function registerRoutes(): void
     {
-        if (!$this->app['config']->get('alphanews.panel.register')) {
-            return;
-        }
-
         Route::group([
-            'prefix' => config('alphanews.panel.path', 'alphanews'),
-            'as' => config('alphanews.panel.route_name_prefix', 'alphanews').'.',
+            'prefix' => config('alphanews.routes.path', 'alphanews'),
+            'as' => config('alphanews.routes.route_name_prefix', 'alphanews').'.',
             'namespace' => 'AlphaNews\Http\Controllers',
-            'middleware' => config('alphanews.panel.middleware', ['web']),
+            'middleware' => config('alphanews.routes.middleware', ['web']),
         ], function () {
             $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         });
@@ -47,10 +44,6 @@ class ServiceProvider extends ParentProvider
      */
     protected function registerResources(): void
     {
-        if (!$this->app['config']->get('alphanews.panel.register')) {
-            return;
-        }
-
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'alphanews');
     }
 
@@ -69,13 +62,19 @@ class ServiceProvider extends ParentProvider
      */
     protected function registerAssetPublishing(): void
     {
-        if (!$this->app['config']->get('alphanews.panel.register')) {
-            return;
-        }
-
         $this->publishes([
             __DIR__.'/../public' => public_path('vendor/alphanews'),
         ], 'alphanews-assets');
+    }
+
+    /**
+     * Register the AlphaNews migrations.
+     */
+    protected function registerMigrationsPublishing(): void
+    {
+        $this->publishes([
+            __DIR__.'/../database/migrations' => database_path('migrations'),
+        ], 'alphanews-migrations');
     }
 
     /**
