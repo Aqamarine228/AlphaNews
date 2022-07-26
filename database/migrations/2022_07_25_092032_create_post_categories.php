@@ -13,7 +13,7 @@ return new class() extends Migration {
             $table->id();
             $table->string('name');
             $table->string('color', 15);
-            $table->foreignId(Config::get('alphanews.foreign_keys.post_category_parent_id'))
+            $table->foreignId(Config::get('alphanews.foreign_keys.post_category_parent'))
                 ->nullable()
                 ->constrained((new $postCategory())->getTable())
             ;
@@ -25,6 +25,11 @@ return new class() extends Migration {
 
     public function down(): void
     {
+        Schema::table('post_categories', static function (Blueprint $table) {
+            $table->dropForeign(
+                'post_categories_'.Config::get('alphanews.foreign_keys.post_category_parent').'_foreign'
+            );
+        });
         Schema::dropIfExists('post_categories');
     }
 };

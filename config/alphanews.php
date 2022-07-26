@@ -43,7 +43,7 @@ return [
         'post_category' => 'post_category_id',
 
         // PostCategory foreign key on AlphaNews's post_categories table
-        'post_category_parent_id' => 'parent_category_id',
+        'post_category_parent' => 'parent_category_id',
     ],
 
     /*

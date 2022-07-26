@@ -28,6 +28,8 @@ return new class() extends Migration {
                 ->references('id')
                 ->on((new $postCategory())->getTable())
             ;
+            $table->unsignedInteger('views')->default(0);
+            $table->unsignedInteger('likes')->default(0);
             $table->boolean('is_trending_now')->default(false);
             $table->timestamp('published_at')->nullable();
             $table->date('date_ico')->nullable();
