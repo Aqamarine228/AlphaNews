@@ -19,6 +19,10 @@ return [
         'tag' => \App\Models\Tag::class,
 
         'user' => \App\Models\User::class,
+
+        'media_folder' => \App\Models\MediaFolder::class,
+
+        'image' => \App\Models\Image::class
     ],
 
     /*
@@ -42,8 +46,8 @@ return [
         // PostCategory foreign key on AlphaNews's post_tag table.
         'post_category' => 'post_category_id',
 
-        // PostCategory foreign key on AlphaNews's post_categories table
-        'post_category_parent' => 'parent_category_id',
+        // MediaFolder foreign key on AlphaNews's images, posts, media_folders tables.
+        'media_folder' => 'media_folder_id',
     ],
 
     /*
@@ -80,7 +84,7 @@ return [
 
         /*
          |--------------------------------------------------------------------------
-         | AlphaNews Panel Route Middleware
+         | AlphaNews Route Name Prefix
          |--------------------------------------------------------------------------
          |
          | This is the name prefix with which every name of admin panel route
@@ -89,5 +93,65 @@ return [
          */
 
         'route_name_prefix' => 'alphanews',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | AlphaNews Media
+    |--------------------------------------------------------------------------
+    |
+    | Section to manage everything related with media.
+    |
+    */
+
+    'media' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | AlphaNews Media
+        |--------------------------------------------------------------------------
+        |
+        | Section to manage everything related with saving media in filesystem.
+        |
+        */
+
+        'filesystem' => [
+
+            /*
+            |--------------------------------------------------------------------------
+            | AlphaNews Media Filesystem Disk
+            |--------------------------------------------------------------------------
+            |
+            | This is disk that will be used to store media.
+            |
+            */
+
+            'disk' => 'public',
+
+            /*
+            |--------------------------------------------------------------------------
+            | AlphaNews Media Filesystem Images Path
+            |--------------------------------------------------------------------------
+            |
+            | Filesystem path in which images will be stored.
+            |
+            */
+
+            'images_path' => 'images',
+        ],
+
+        /*
+        |--------------------------------------------------------------------------
+        | AlphaNews Media Folders
+        |--------------------------------------------------------------------------
+        |
+        | These are media folder id's used for different post types.
+        |
+        */
+
+        'folders' => [
+            'news' => 1,
+            'advertising' => 2,
+        ]
     ],
 ];

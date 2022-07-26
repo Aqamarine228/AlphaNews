@@ -20,7 +20,7 @@ trait AlphaNewsPostCategoryTrait
     {
         return $this->hasMany(
             $this::class,
-            Config::get('alphanews.foreign_keys.post_category_parent'),
+            Config::get('alphanews.foreign_keys.post_category'),
             'id'
         );
     }

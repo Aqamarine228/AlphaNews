@@ -22,7 +22,7 @@ class PostCategoriesController extends AlphaNewsController
     {
         $category = $id ? $this->postCategoryModel::findOrFail($id) : new $this->postCategoryModel;
         $postCategories = $this->postCategoryModel::where(
-            Config::get('alphanews.foreign_keys.post_category_parent'),
+            Config::get('alphanews.foreign_keys.post_category'),
             $category->id
         )
             ->withCount('childCategories')
@@ -47,7 +47,12 @@ class PostCategoriesController extends AlphaNewsController
 
     public function store(PostCategoryRequest $request): RedirectResponse
     {
-        $this->postCategoryModel::create($request->validated());
+        $validated = $request->validated();
+        $this->postCategoryModel::create([
+            'name' => $validated['name'],
+            'color' => $validated['color'],
+            Config::get('alphanews.foreign_keys.post_category') => $validated['post_category_id']
+        ]);
         $this->showSuccessMessage('Category successfully created.');
 
         return redirect()->route('alphanews.post-categories.index');

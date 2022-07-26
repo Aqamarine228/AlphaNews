@@ -1,5 +1,6 @@
 <?php
 
+use Aqamarine\AlphaNews\Enums\PostMediaType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Config;
@@ -18,6 +19,8 @@ return new class() extends Migration {
             $table->string('picture')->nullable();
             $table->string('short_title')->nullable();
             $table->string('short_content')->nullable();
+            $table->enum('media_type', collect(PostMediaType::cases())->pluck('value')->toArray())
+                ->nullable();
             $table->foreignId(Config::get('alphanews.foreign_keys.post_category'))->nullable();
             $table->foreign(Config::get('alphanews.foreign_keys.post_category'))
                 ->references('id')

@@ -50,6 +50,5 @@
 <script src="{{asset('vendor/alphanews/plugins/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('vendor/alphanews/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{asset('vendor/alphanews/js/adminlte.min.js')}}"></script>
-<script src="{{asset('vendor/alphanews/js/demo.js')}}"></script>
 </body>
 </html>

@@ -23,7 +23,7 @@ class PostCategoryFactory extends Factory
             'name' => $this->faker->jobTitle,
             'color' => $this->faker->colorName,
             'posts_amount' => $this->faker->randomNumber(),
-            'parent_category_id' => null,
+            'post_category_id' => null,
         ];
     }
 }
