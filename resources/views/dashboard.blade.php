@@ -1,4 +1,4 @@
-@extends('alphanews::panel.layout.layout')
+@extends('alphanews::layout.layout')
 
 @section('title')
     Dashboard

@@ -10,7 +10,7 @@ class AdminPanelController extends AlphaNewsController
 {
     public function dashboard(): Factory|View|Application
     {
-        return view('alphanews::panel.dashboard');
+        return $this->view('dashboard');
     }
 
 }

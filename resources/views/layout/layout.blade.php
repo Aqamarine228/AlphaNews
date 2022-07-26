@@ -11,9 +11,9 @@
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
-    @include('alphanews::panel.layout._navbar')
+    @include('alphanews::layout._navbar')
 
-    @include('alphanews::panel.layout._aside')
+    @include('alphanews::layout._aside')
 
     <div class="content-wrapper">
         <section class="content-header">
@@ -34,6 +34,7 @@
         </section>
 
         <section class="content">
+            @include('alphanews::layout._alerts')
            @yield('content')
         </section>
     </div>
