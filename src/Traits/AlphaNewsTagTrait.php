@@ -11,7 +11,6 @@ trait AlphaNewsTagTrait
     {
         return $this->belongsToMany(
             Config::get('alphanews.models.post'),
-            Config::get('alphanews.foreign_keys.post'),
         );
     }
 }

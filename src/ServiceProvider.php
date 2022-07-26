@@ -2,6 +2,7 @@
 
 namespace Aqamarine\AlphaNews;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as ParentProvider;
 
@@ -9,6 +10,7 @@ class ServiceProvider extends ParentProvider
 {
     public function boot(): void
     {
+        Paginator::useBootstrap();
         $this->registerRoutes();
         $this->registerResources();
         $this->registerMigrationsPublishing();
