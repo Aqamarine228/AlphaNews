@@ -11,6 +11,7 @@ composer.phar
 composer.lock
 .DS_Store
 Thumbs.db
+.php-cs-fixer.cache
 
 /conf
 .idea
@@ -18,8 +19,6 @@ Thumbs.db
 .env.*.php
 .env.php
 bump-version.sh
-
-.php-cs-fixer.cache
 
 # vscode phpunit
 .phpunit.result.cache
