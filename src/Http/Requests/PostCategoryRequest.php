@@ -17,7 +17,7 @@ class PostCategoryRequest extends FormRequest
         if ($this->isMethod('post')) {
             $validationRules = [
                 'color' => 'required|string|max:255',
-                'parent_category_id' => 'nullable|exists:'.$table.',id',
+                'parent_category_id' => 'required|exists:'.$table.',id',
                 'name' =>  ['required', 'string', 'max:255', 'unique:'.$table],
             ];
         } else {
