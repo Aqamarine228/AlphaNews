@@ -28,26 +28,26 @@
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">
 
-                        {{--                        <li class="nav-item">--}}
-                        {{--                            <a href="{{ route('admin.posts.index') }}" class="nav-link">--}}
-                        {{--                                <em class="far fa-circle nav-icon"></em>--}}
-                        {{--                                <p>My Posts</p>--}}
-                        {{--                            </a>--}}
-                        {{--                        </li>--}}
+                        <li class="nav-item">
+                            <a href="{{ route('alphanews.posts.index') }}" class="nav-link">
+                                <em class="far fa-circle nav-icon"></em>
+                                <p>My Posts</p>
+                            </a>
+                        </li>
 
-                        {{--                        <li class="nav-item">--}}
-                        {{--                            <a href="{{ route('admin.posts.all') }}" class="nav-link">--}}
-                        {{--                                <em class="far fa-circle nav-icon"></em>--}}
-                        {{--                                <p>All Posts</p>--}}
-                        {{--                            </a>--}}
-                        {{--                        </li>--}}
+                        <li class="nav-item">
+                            <a href="{{ route('alphanews.posts.all') }}" class="nav-link">
+                                <em class="far fa-circle nav-icon"></em>
+                                <p>All Posts</p>
+                            </a>
+                        </li>
 
-                        {{--                        <li class="nav-item">--}}
-                        {{--                            <a class="nav-link" onclick="document.getElementById('post-create').submit()">--}}
-                        {{--                                <em class="far fa-circle nav-icon"></em>--}}
-                        {{--                                <p>Add new</p>--}}
-                        {{--                            </a>--}}
-                        {{--                        </li>--}}
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="document.getElementById('post-create').submit()">
+                                <em class="far fa-circle nav-icon"></em>
+                                <p>Add new</p>
+                            </a>
+                        </li>
 
                         <li class="nav-item">
                             <a href="{{route('alphanews.post-categories.index')}}" class="nav-link">

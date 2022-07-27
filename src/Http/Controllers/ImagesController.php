@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Intervention\Image\ImageManagerStatic as Image;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -82,7 +83,7 @@ class ImagesController extends AlphaNewsController
         $imageName = Str::random(10) . ' _ ' . time() . '.png';
         Storage::disk(Config::get('alphanews.media.filesystem.disk'))->put(
             Config::get('alphanews.media.filesystem.images_path') . '/' . $imageName,
-            $image->getContent()
+            Image::make($image)->stream()
         );
 
         return $imageName;

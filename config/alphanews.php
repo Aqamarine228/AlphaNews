@@ -97,6 +97,77 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | AlphaNews Posts
+    |--------------------------------------------------------------------------
+    |
+    | Section to manage everything related with posts.
+    |
+    */
+
+    'posts' => [
+
+        //TODO: add description
+        'categories_ido' => '1337',
+
+        /*
+        |--------------------------------------------------------------------------
+        | AlphaNews Posts Preview Images Height
+        |--------------------------------------------------------------------------
+        |
+        | Height of post preview image in pixels.
+        |
+        */
+
+        'preview_images_height' => 360,
+
+        /*
+        |--------------------------------------------------------------------------
+        | AlphaNews Posts Filesystem
+        |--------------------------------------------------------------------------
+        |
+        | Section to manage everything related with saving posts data in filesystem.
+        |
+        */
+
+        'filesystem' => [
+
+            /*
+            |--------------------------------------------------------------------------
+            | AlphaNews Posts Filesystem Disk
+            |--------------------------------------------------------------------------
+            |
+            | This is the disk that will be used to store posts related data.
+            |
+            */
+
+            'disk' => 'public',
+
+            /*
+            |--------------------------------------------------------------------------
+            | AlphaNews Posts Filesystem Preview Images Path
+            |--------------------------------------------------------------------------
+            |
+            | Filesystem path in which post preview images will be stored.
+            |
+            */
+
+            'preview_images_path' => 'posts/previews',
+
+            /*
+            |--------------------------------------------------------------------------
+            | AlphaNews Posts Filesystem Original Images Path
+            |--------------------------------------------------------------------------
+            |
+            | Filesystem path in which post original images will be stored.
+            |
+            */
+
+            'original_images_path' => 'posts/originals',
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | AlphaNews Media
     |--------------------------------------------------------------------------
     |
@@ -108,7 +179,7 @@ return [
 
         /*
         |--------------------------------------------------------------------------
-        | AlphaNews Media
+        | AlphaNews Media Filesystem
         |--------------------------------------------------------------------------
         |
         | Section to manage everything related with saving media in filesystem.
@@ -150,7 +221,27 @@ return [
         */
 
         'folders' => [
+
+            /*
+            |--------------------------------------------------------------------------
+            | AlphaNews Media Folder News
+            |--------------------------------------------------------------------------
+            |
+            | ID of Media Folder in which media related to news will be stored.
+            |
+            */
+
             'news' => 1,
+
+            /*
+            |--------------------------------------------------------------------------
+            | AlphaNews Media Folder Advertising
+            |--------------------------------------------------------------------------
+            |
+            | ID of Media Folder in which media related to advertising will be stored.
+            |
+            */
+
             'advertising' => 2,
         ]
     ],
