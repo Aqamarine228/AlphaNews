@@ -13,12 +13,12 @@ class StoreTest extends PostCategoriesTestCase
         $this->post($this->url(), [
             'color' => 'GoodColor',
             'name' => 'GoodName',
-            'parent_category_id' => $this->postCategory->id
+            'post_category_id' => $this->postCategory->id
         ], $this->jsonHeader)->assertStatus(302);
         self::assertTrue(PostCategory::where([
             'color' => 'GoodColor',
             'name' => 'GoodName',
-            'parent_category_id' => $this->postCategory->id,
+            'post_category_id' => $this->postCategory->id,
         ])->exists());
     }
 

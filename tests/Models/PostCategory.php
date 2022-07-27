@@ -41,7 +41,7 @@ class PostCategory extends Model
 {
     use HasFactory, AlphaNewsPostCategoryTrait;
 
-    protected $fillable = ['name', 'color', 'posts_amount', 'parent_category_id'];
+    protected $fillable = ['name', 'color', 'posts_amount', 'post_category_id'];
 
     protected static function newFactory(): PostCategoryFactory
     {

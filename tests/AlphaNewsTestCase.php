@@ -4,6 +4,8 @@ namespace Aqamarine\AlphaNews\Tests;
 
 use Aqamarine\AlphaNews\ServiceProvider;
 use Aqamarine\AlphaNews\Tests\Migrations\CreateUsers;
+use Aqamarine\AlphaNews\Tests\Models\Image;
+use Aqamarine\AlphaNews\Tests\Models\MediaFolder;
 use Aqamarine\AlphaNews\Tests\Models\Post;
 use Aqamarine\AlphaNews\Tests\Models\PostCategory;
 use Aqamarine\AlphaNews\Tests\Models\Tag;
@@ -55,6 +57,8 @@ class AlphaNewsTestCase extends TestCase
         (include __DIR__ . '/../database/migrations/2022_07_25_092036_create_posts.php')->up();
         (include __DIR__ . '/../database/migrations/2022_07_25_103834_create_tags.php')->up();
         (include __DIR__ . '/../database/migrations/2022_07_25_103935_create_post_tag.php')->up();
+        (include __DIR__ . '/../database/migrations/2022_07_26_130405_create_media_folders.php')->up();
+        (include __DIR__ . '/../database/migrations/2022_07_26_132522_create_images.php')->up();
     }
 
     private function setConfig($app): void
@@ -72,6 +76,8 @@ class AlphaNewsTestCase extends TestCase
             'post' => Post::class,
             'post_category' => PostCategory::class,
             'tag' => Tag::class,
+            'media_folder' => MediaFolder::class,
+            'image' => Image::class,
         ]);
     }
 }

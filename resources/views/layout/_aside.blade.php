@@ -63,6 +63,14 @@
                             </a>
                         </li>
                     </ul>
+                <li class="nav-item ">
+                    <a href="{{ route('alphanews.media-folders.index') }}" class="nav-link ">
+                        <em class="nav-icon fas fa-images"></em>
+                        <p>
+                            Images
+                        </p>
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
