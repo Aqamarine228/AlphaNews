@@ -32,6 +32,7 @@ trait AlphaNewsPostTrait
             Config::get('alphanews.models.tag'),
             'post_tag',
             Config::get('alphanews.foreign_keys.tag'),
+            Config::get('alphanews.foreign_keys.post')
         );
     }
 

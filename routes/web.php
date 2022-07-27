@@ -4,6 +4,8 @@ use Aqamarine\AlphaNews\Http\Controllers\AdminPanelController;
 use Aqamarine\AlphaNews\Http\Controllers\ImagesController;
 use Aqamarine\AlphaNews\Http\Controllers\MediaFoldersController;
 use Aqamarine\AlphaNews\Http\Controllers\PostCategoriesController;
+use Aqamarine\AlphaNews\Http\Controllers\PostsController;
+use Aqamarine\AlphaNews\Http\Controllers\PublishPostController;
 use Aqamarine\AlphaNews\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,5 +35,25 @@ Route::prefix('/media-folders')->name('media-folders.')->group(function () {
     Route::prefix('/images')->name('images.')->group(function () {
         Route::post('/tinymce', [ImagesController::class, 'storeFromTinymce'])->name('store-from-tinymce');
         Route::post('/', [ImagesController::class, 'store'])->name('store');
+    });
+});
+
+Route::prefix('/posts')->name('posts.')->group(function () {
+    Route::get('/', [PostsController::class, 'index'])->name('index');
+    Route::get('/all', [PostsController::class, 'indexAllPosts'])->name('all');
+    Route::post('/', [PostsController::class, 'store'])->name('store');
+    Route::prefix('/{id}')->group(function () {
+        Route::get('/edit', [PostsController::class, 'edit'])->name('edit');
+        Route::put('/content', [PostsController::class, 'updateContent'])->name('update.content');
+        Route::put('/preview', [PostsController::class, 'updatePreview'])->name('update.preview');
+        Route::put('/category', [PostsController::class, 'updateCategory'])->name('update.category');
+        Route::put('/media-type', [PostsController::class, 'updateMediaType'])->name('update.media-type');
+        Route::put('/date-ico', [PostsController::class, 'updateDateIco'])->name('update.date-ico');
+        Route::put('/tags', [PostsController::class, 'updateTags'])->name('update.tags');
+        Route::put('/image', [PostsController::class, 'updateImage'])->name('update.image');
+        Route::put('/main', [PostsController::class, 'mainPost'])->name('update.main');
+
+        Route::post('/publish', [PublishPostController::class, 'publish'])->name('publish');
+        Route::post('/unpublish', [PublishPostController::class, 'unPublish'])->name('unpublish');
     });
 });

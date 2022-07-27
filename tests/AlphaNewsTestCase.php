@@ -21,13 +21,21 @@ class AlphaNewsTestCase extends TestCase
     public array $jsonHeader = ['accept' => "application/json"];
     protected array|string|int $routeParameters = [];
 
+    protected User $user;
     protected string $testCaseRouteName;
     protected string $testRouteName;
 
-    public function url(): string
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+        $this->actingAs($this->user);
+    }
+
+    public function url($additionalRoute = ''): string
     {
         return route(
-            $this->packageRouteName.'.'.$this->testCaseRouteName.'.'.$this->testRouteName,
+            $this->packageRouteName.'.'.$this->testCaseRouteName.'.'.$this->testRouteName.$additionalRoute,
             $this->routeParameters
         );
     }
