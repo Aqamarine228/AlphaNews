@@ -2,6 +2,7 @@
 
 namespace Aqamarine\AlphaNews;
 
+use Aqamarine\AlphaNews\Console\CreateAlphaNewsModuleCommand;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as ParentProvider;
@@ -13,6 +14,7 @@ class ServiceProvider extends ParentProvider
         Paginator::useBootstrap();
         $this->registerRoutes();
         $this->registerResources();
+        $this->registerCommands();
         $this->registerMigrationsPublishing();
         $this->registerAssetPublishing();
         $this->registerConfigPublishing();
@@ -32,8 +34,6 @@ class ServiceProvider extends ParentProvider
     protected function registerRoutes(): void
     {
         Route::group([
-            'prefix' => config('alphanews.routes.path', 'alphanews'),
-            'as' => config('alphanews.routes.route_name_prefix', 'alphanews').'.',
             'namespace' => 'AlphaNews\Http\Controllers',
             'middleware' => config('alphanews.routes.middleware', ['web']),
         ], function () {
@@ -47,6 +47,18 @@ class ServiceProvider extends ParentProvider
     protected function registerResources(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'alphanews');
+    }
+
+    /**
+     * Register the AlphaNews commands.
+     */
+    protected function registerCommands(): void
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                CreateAlphaNewsModuleCommand::class
+            ]);
+        }
     }
 
     /**
