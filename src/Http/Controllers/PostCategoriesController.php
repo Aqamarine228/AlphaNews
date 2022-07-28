@@ -51,7 +51,7 @@ class PostCategoriesController extends AlphaNewsController
         $this->postCategoryModel::create([
             'name' => $validated['name'],
             'color' => $validated['color'],
-            Config::get('alphanews.foreign_keys.post_category') => $validated['post_category_id']
+            Config::get('alphanews.foreign_keys.post_category') => $validated['post_category_id'] ?? null
         ]);
         $this->showSuccessMessage('Category successfully created.');
 

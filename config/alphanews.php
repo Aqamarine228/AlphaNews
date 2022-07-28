@@ -106,9 +106,6 @@ return [
 
     'posts' => [
 
-        //TODO: add description
-        'categories_ido' => '1337',
-
         /*
         |--------------------------------------------------------------------------
         | AlphaNews Posts Preview Images Height

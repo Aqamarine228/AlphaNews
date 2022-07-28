@@ -24,8 +24,17 @@ class PublishPostController extends AlphaNewsController
     public function publish(int $id): RedirectResponse
     {
         $post = $this->postModel::findOrFail($id);
-        if ($post->isPublished() || !$post->publishable()) {
-            abort(404);
+        if ($post->isPublished()) {
+            $this->showErrorMessage('Post is already published');
+            return back();
+        }
+        if (!$post->publishable()) {
+            $this->showErrorMessage("Post is not publishable because:");
+            $post->isStep1Completed() ?: $this->showErrorMessage("Parent category is not selected");
+            $post->isStep2Completed() ?: $this->showErrorMessage("Post has no title");
+            $post->isStep3Completed() ?: $this->showErrorMessage("Post has no short title");
+            $post->isStep4Completed() ?: $this->showErrorMessage("Post has no picture");
+            return back();
         }
 
         $validated = $this->validate(request(), [
@@ -41,12 +50,11 @@ class PublishPostController extends AlphaNewsController
                 'published_at' => $validated['date']
             ]);
             $post->category()->increment('posts_amount');
-            $post->tags()->increment('post_amount');
+            $post->tags()->increment('posts_amount');
         });
 
         $this->showSuccessMessage('Post published successfully');
         return back();
-        // add post to telegram channel
     }
 
     /**
@@ -56,7 +64,8 @@ class PublishPostController extends AlphaNewsController
     {
         $post = $this->postModel::findOrFail($id);
         if (!$post->isPublished()) {
-            abort(404);
+            $this->showErrorMessage('Cannot un publish not published post');
+            return back();
         }
 
         DB::transaction(static function () use ($post) {
@@ -64,7 +73,7 @@ class PublishPostController extends AlphaNewsController
                 'published_at' => null
             ]);
             $post->category()->decrement('posts_amount');
-            $post->tags()->decrement('post_amount');
+            $post->tags()->decrement('posts_amount');
         });
 
         $this->showSuccessMessage('Post unpublished successfully');

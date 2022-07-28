@@ -146,33 +146,15 @@ class PostsController extends AlphaNewsController
     /**
      * @throws ValidationException
      */
-    public function updateDateIco(int $id): RedirectResponse
-    {
-        $validated = $this->validate(request(), [
-            'date_ico' => [
-                'date_format:Y-m-d',
-                'after_or_equal:' . date('Y-m-d'),
-                'required'
-            ]
-        ]);
-
-        $this->postModel::findOrFail($id)->update($validated);
-
-        return back();
-    }
-
-    /**
-     * @throws ValidationException
-     */
     public function updateImage(int $id): RedirectResponse
     {
         $post = $this->postModel::findOrFail($id);
         $validated = $this->validate(request(), [
             'picture' => ['required', 'image', 'max:4096'],
-            'width' => 'required|numeric',
-            'height' => 'required|numeric',
-            'x1' => 'required|numeric',
-            'y1' => 'required|numeric'
+//            'width' => 'required|numeric',
+//            'height' => 'required|numeric',
+//            'x1' => 'required|numeric',
+//            'y1' => 'required|numeric'
         ]);
 
         $imageName = $this->cropAndUploadImagesByName(

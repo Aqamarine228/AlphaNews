@@ -58,7 +58,11 @@ class Post extends Model
 
     protected $fillable = [
         'post_category_id', 'author_id', 'title', 'short_content', 'short_title', 'content', 'picture',
-        'published_at', 'date_ico', 'is_trending_now', 'views', 'media_type'
+        'published_at', 'is_trending_now', 'views', 'media_type'
+    ];
+
+    protected $dates = [
+        'published_at'
     ];
 
     protected static function newFactory(): PostFactory

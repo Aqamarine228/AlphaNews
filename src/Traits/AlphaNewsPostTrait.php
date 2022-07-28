@@ -5,6 +5,7 @@ namespace Aqamarine\AlphaNews\Traits;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 trait AlphaNewsPostTrait
 {
@@ -21,7 +22,7 @@ trait AlphaNewsPostTrait
     {
         return $this->belongsTo(
             Config::get('alphanews.models.post_category'),
-            Config::get('alphanews.foreign_keys.category'),
+            Config::get('alphanews.foreign_keys.post_category'),
             'id',
         );
     }
@@ -67,5 +68,15 @@ trait AlphaNewsPostTrait
             && $this->isStep2Completed()
             && $this->isStep3Completed()
             && $this->isStep4Completed();
+    }
+
+    public function originalImage(): string
+    {
+        return Storage::url(config('alphanews.posts.filesystem.original_images_path') . $this->picture);
+    }
+
+    public function previewImage(): string
+    {
+        return Storage::url(config('alphanews.posts.filesystem.preview_images_path') . $this->picture);
     }
 }

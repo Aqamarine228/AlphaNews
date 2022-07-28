@@ -35,7 +35,7 @@ class Tag extends Model
 {
     use HasFactory, AlphaNewsTagTrait;
 
-    protected $fillable = ['name', 'post_amount'];
+    protected $fillable = ['name', 'posts_amount'];
 
     protected static function newFactory(): TagFactory
     {

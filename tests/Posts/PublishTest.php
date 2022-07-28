@@ -12,6 +12,7 @@ class PublishTest extends PostsTestCase
     public function testPublish(): void
     {
         $postCategory = PostCategory::factory()->create();
+        $postsAmount = $postCategory->posts_amount;
         $post = Post::factory()->state([
             'published_at' => null,
             'post_category_id' => $postCategory->id
@@ -23,6 +24,7 @@ class PublishTest extends PostsTestCase
             'date' => date('Y-m-d')
         ], $this->jsonHeader)->assertStatus(302);
         self::assertTrue((bool)Post::find($post->id)->published_at);
+        self::assertSame($postsAmount + 1, PostCategory::find($postCategory->id)->posts_amount);
     }
 
     public function testPublishNotPublishable(): void
@@ -31,7 +33,8 @@ class PublishTest extends PostsTestCase
         $this->routeParameters = [
             'id' => $post->id
         ];
-        $this->post($this->url(), [], $this->jsonHeader)->assertStatus(404);
+        $this->post($this->url(), [], $this->jsonHeader)->assertStatus(302);
+        self::assertFalse((bool)Post::find($post->id)->published_at);
     }
 
 }

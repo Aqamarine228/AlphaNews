@@ -73,18 +73,6 @@ class UpdateTest extends PostsTestCase
         ])->exists());
     }
 
-    public function testUpdateDateIco(): void
-    {
-        $date = date('Y-m-d');
-        $this->put($this->url('date-ico'), [
-            'date_ico' => $date,
-        ], $this->jsonHeader)->assertStatus(302);
-        self::assertTrue(Post::where([
-            'id' => $this->emptyPost->id,
-            'date_ico' => $date
-        ])->exists());
-    }
-
     public function testUpdateTags(): void
     {
         $tags = [
