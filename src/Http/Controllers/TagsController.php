@@ -20,7 +20,7 @@ class TagsController extends AlphaNewsController
 
     public function index(): Factory|View|Application
     {
-        $tags = $this->tagModel::orderBy('post_amount', 'desc')->paginate(20);
+        $tags = $this->tagModel::orderBy('posts_amount', 'desc')->paginate(20);
 
         return $this->view('tags.index', [
             'tags' => $tags,

@@ -51,9 +51,8 @@
             @include('alphanews::posts.blocks._publish')
             @include('alphanews::posts.blocks._category')
             @include('alphanews::posts.blocks._media-type')
-            @include('alphanews::posts.blocks._date-ico')
-            @include('alphanews::posts.blocks._tags')
             @include('alphanews::posts.blocks._image')
+            @include('alphanews::posts.blocks._tags')
         </div>
     </div>
     @include('alphanews::posts.blocks._crop-image-modal')
@@ -85,28 +84,18 @@
         $('#media_type').select2();
     </script>
     <script>
+        const tags = {{ json_encode(\Illuminate\Support\Facades\Config::get('alphanews.models.tag')::select(['id', 'name'])->when(request()->get('q'), function ($query, $search) {$query->where('name', 'like', '%' . $search . '%');})->limit(5)->get(), JSON_THROW_ON_ERROR)}};
+        console.log(tags);
+        let results = tags.map((item) => {
+            return {
+                id: item.name,
+                text: item.name
+            }
+        });
         $('#tags').select2({
-            tags: [],
+            data: results,
             tokenSeparators: [","],
             multiple: true,
-            ajax: {
-                url: '/api/admin_s/tags',
-                dataType: "json",
-                processResults: function (data) {
-                    let results = [];
-
-                    data.response.forEach(function (item) {
-                        results.push({
-                            id: item.name,
-                            text: item.name
-                        });
-                    });
-                    return {
-                        results: results
-                    };
-                },
-
-            }
         });
     </script>
     <script src="{{asset('vendor/alphanews/plugins/croppie/js/croppie.min.js')}}"></script>

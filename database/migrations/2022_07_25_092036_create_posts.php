@@ -35,7 +35,6 @@ return new class() extends Migration {
             $table->unsignedInteger('likes')->default(0);
             $table->boolean('is_trending_now')->default(false);
             $table->timestamp('published_at')->nullable();
-            $table->date('date_ico')->nullable();
             $table->timestamps();
         });
     }

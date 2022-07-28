@@ -48,7 +48,6 @@ Route::prefix('/posts')->name('posts.')->group(function () {
         Route::put('/preview', [PostsController::class, 'updatePreview'])->name('update.preview');
         Route::put('/category', [PostsController::class, 'updateCategory'])->name('update.category');
         Route::put('/media-type', [PostsController::class, 'updateMediaType'])->name('update.media-type');
-        Route::put('/date-ico', [PostsController::class, 'updateDateIco'])->name('update.date-ico');
         Route::put('/tags', [PostsController::class, 'updateTags'])->name('update.tags');
         Route::put('/image', [PostsController::class, 'updateImage'])->name('update.image');
         Route::put('/main', [PostsController::class, 'mainPost'])->name('update.main');

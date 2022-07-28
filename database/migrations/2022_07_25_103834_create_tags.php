@@ -10,7 +10,7 @@ return new class() extends Migration {
         Schema::create('tags', static function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->bigInteger('post_amount')->default(0);
+            $table->bigInteger('posts_amount')->default(0);
             $table->timestamps();
         });
     }

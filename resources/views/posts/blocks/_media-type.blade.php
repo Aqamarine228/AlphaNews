@@ -3,7 +3,7 @@
         <h3 class="card-title">Media Type</h3>
     </div>
     <div class="card-body">
-        <form id="post-update-media" action="{{ route('alphanews.posts.update.mediatype', $post->id) }}" method="post">
+        <form id="post-update-media" action="{{ route('alphanews.posts.update.media-type', $post->id) }}" method="post">
             @csrf
             @method('put')
 
@@ -13,7 +13,7 @@
                  'required' => true,
                  'label' => false,
                  'items' => $postMediaTypes,
-                 'defaultValue' => $post->media_type->value,
+                 'defaultValue' => $post->media_type,
              ])
 
         </form>
