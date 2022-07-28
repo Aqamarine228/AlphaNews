@@ -24,12 +24,12 @@ return new class() extends Migration {
             $table->foreignId(Config::get('alphanews.foreign_keys.post_category'))->nullable();
             $table->foreign(Config::get('alphanews.foreign_keys.post_category'))
                 ->references('id')
-                ->on((new $user())->getTable())
+                ->on((new $postCategory())->getTable())
             ;
             $table->foreignId(Config::get('alphanews.foreign_keys.user'));
             $table->foreign(Config::get('alphanews.foreign_keys.user'))
                 ->references('id')
-                ->on((new $postCategory())->getTable())
+                ->on((new $user())->getTable())
             ;
             $table->unsignedInteger('views')->default(0);
             $table->unsignedInteger('likes')->default(0);

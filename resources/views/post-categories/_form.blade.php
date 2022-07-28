@@ -28,7 +28,9 @@
         'required' => true,
         'label' => 'Parent',
         'name' => 'parent_category_id',
-        'items' => [null, ...$categories],
+        'items' => [
+            null => 'None'
+        , ...$categories],
         'defaultValue' => $model->parent_category_id ?? request()->get('category_id')
     ])
 

@@ -84,8 +84,10 @@
         $('#media_type').select2();
     </script>
     <script>
-        const tags = {{ json_encode(\Illuminate\Support\Facades\Config::get('alphanews.models.tag')::select(['id', 'name'])->when(request()->get('q'), function ($query, $search) {$query->where('name', 'like', '%' . $search . '%');})->limit(5)->get(), JSON_THROW_ON_ERROR)}};
-        console.log(tags);
+        @php
+            $tags = \Illuminate\Support\Facades\Config::get('alphanews.models.tag')::select(['id', 'name'])->when(request()->get('q'), function ($query, $search) {$query->where('name', 'like', '%' . $search . '%');})->limit(5)->get();
+        @endphp
+        const tags = @json($tags, JSON_THROW_ON_ERROR);
         let results = tags.map((item) => {
             return {
                 id: item.name,
