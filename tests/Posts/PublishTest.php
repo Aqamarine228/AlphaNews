@@ -33,7 +33,8 @@ class PublishTest extends PostsTestCase
         $this->routeParameters = [
             'id' => $post->id
         ];
-        $this->post($this->url(), [], $this->jsonHeader)->assertStatus(404);
+        $this->post($this->url(), [], $this->jsonHeader)->assertStatus(302);
+        self::assertFalse((bool)Post::find($post->id)->published_at);
     }
 
 }
