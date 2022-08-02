@@ -99,7 +99,7 @@ For package to work you need to specify models path in config
 ]
 ```
 
-Also, Image, PostCategory, Post and Tag models should use traits provided in package and include same fillable properties as below
+Models required by package should use traits provided in package and include same fillable properties as below
 
 ```php
 //.../Models/Image.php
@@ -139,6 +139,13 @@ class Tag extends Model
     use AlphaNewsTagTrait;
     
     protected $fillable = ['name', 'posts_amount'];
+}
+
+//.../Models/MediaFolder.php
+
+class MediaFolder extends Model
+{
+    protected $fillable = ['name', 'media_folder_id'];
 }
 ```
 
