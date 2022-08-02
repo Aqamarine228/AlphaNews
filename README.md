@@ -151,7 +151,7 @@ class MediaFolder extends Model
 
 ## Routes Configuration
 
-Some routes require user model from that initiated request, so by default 'web' and 'auth:web' middlewares are set. You can change <br> 
+Some routes require user model from that initiated request, so by default 'web' and 'auth:web' middlewares are set. You can change
 this behaviour in package config, but package still require '$request->user()' to be set
 
 ```php
