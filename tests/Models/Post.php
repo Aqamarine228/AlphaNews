@@ -56,15 +56,6 @@ class Post extends Model
 {
     use HasFactory, AlphaNewsPostTrait;
 
-    protected $fillable = [
-        'post_category_id', 'author_id', 'title', 'short_content', 'short_title', 'content', 'picture',
-        'published_at', 'is_trending_now', 'views', 'media_type'
-    ];
-
-    protected $dates = [
-        'published_at'
-    ];
-
     protected static function newFactory(): PostFactory
     {
         return PostFactory::new();

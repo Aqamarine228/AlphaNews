@@ -29,6 +29,4 @@ use Illuminate\Support\Carbon;
 class Image extends Model
 {
     use AlphaNewsImageTrait;
-
-    protected $fillable = ['media_folder_id', 'name'];
 }
