@@ -23,7 +23,7 @@ $ composer require aqamarine/alphanews
 
 ## Package Configuration
 
-For package to work publishing assets is needed
+For package to work publishing assets and migrations is needed
 
 ### Publish Assets
 
@@ -31,26 +31,17 @@ For package to work publishing assets is needed
 $ php artisan vendor:publish --tag="alphanews-assets"
 ```
 
+### Publish Migrations
+
+```bash
+$ php artisan vendor:publish --tag="alphanews-migrations"
+```
+
+
 ### Publish Config (Optional)
 
 ```bash
 $ php artisan vendor:publish --tag="alphanews-config"
-```
-
-### Publish Migrations (Optional)
-
-First set to false 'register_migrations' options in package config
-
-```php
-//config/alphanews.php
-
-'register_migrations' => false,
-```
-
-And then run the script
-
-```bash
-$ php artisan vendor:publish --tag="alphanews-migrations"
 ```
 
 ## Package Configuration (Module setup)
