@@ -60,8 +60,8 @@ return [
     | Section to manage everything related with the admin panel routes.
     |
     */
-
     'routes' => [
+
         /*
         |--------------------------------------------------------------------------
         | AlphaNews Panel Path
@@ -70,7 +70,6 @@ return [
         | This is the URI path where AlphaNews panel will be accessible from.
         |
         */
-
         'path' => 'alphanews',
 
         /*
@@ -81,8 +80,7 @@ return [
         | These middleware will get attached onto each AlphaNews panel route.
         |
         */
-
-        'middleware' => ['web'],
+        'middleware' => ['web', 'auth:web'],
 
         /*
          |--------------------------------------------------------------------------
@@ -93,7 +91,6 @@ return [
          | will start.
          |
          */
-
         'route_name_prefix' => 'alphanews',
     ],
 
@@ -105,7 +102,6 @@ return [
     | Section to manage everything related with posts.
     |
     */
-
     'posts' => [
 
         /*
@@ -116,7 +112,6 @@ return [
         | Height of post preview image in pixels.
         |
         */
-
         'preview_images_height' => 360,
 
         /*
@@ -127,7 +122,6 @@ return [
         | Section to manage everything related with saving posts data in filesystem.
         |
         */
-
         'filesystem' => [
 
             /*
@@ -138,7 +132,6 @@ return [
             | This is the disk that will be used to store posts related data.
             |
             */
-
             'disk' => 'public',
 
             /*
@@ -149,7 +142,6 @@ return [
             | Filesystem path in which post preview images will be stored.
             |
             */
-
             'preview_images_path' => 'posts/previews',
 
             /*
@@ -160,7 +152,6 @@ return [
             | Filesystem path in which post original images will be stored.
             |
             */
-
             'original_images_path' => 'posts/originals',
         ],
     ],
@@ -173,7 +164,6 @@ return [
     | Section to manage everything related with media.
     |
     */
-
     'media' => [
 
         /*
@@ -184,7 +174,6 @@ return [
         | Section to manage everything related with saving media in filesystem.
         |
         */
-
         'filesystem' => [
 
             /*
@@ -195,7 +184,6 @@ return [
             | This is disk that will be used to store media.
             |
             */
-
             'disk' => 'public',
 
             /*
@@ -206,7 +194,6 @@ return [
             | Filesystem path in which images will be stored.
             |
             */
-
             'images_path' => 'images',
         ],
 
@@ -218,7 +205,6 @@ return [
         | These are media folder id's used for different post types.
         |
         */
-
         'folders' => [
 
             /*
@@ -229,7 +215,6 @@ return [
             | ID of Media Folder in which media related to news will be stored.
             |
             */
-
             'news' => 1,
 
             /*
@@ -240,7 +225,6 @@ return [
             | ID of Media Folder in which media related to advertising will be stored.
             |
             */
-
             'advertising' => 2,
         ]
     ],

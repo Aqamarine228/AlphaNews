@@ -10,6 +10,7 @@ use Aqamarine\AlphaNews\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix(config('alphanews.routes.path', 'alphanews'))
+    ->middleware(config('alphanews.routes.middleware', ['web', 'auth:web']))
     ->name(config('alphanews.routes.route_name_prefix', 'alphanews').'.')
     ->group(function () {
         Route::get('/dashboard', [AdminPanelController::class, 'dashboard'])->name('dashboard');

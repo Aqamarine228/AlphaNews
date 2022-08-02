@@ -6,6 +6,7 @@ use Aqamarine\AlphaNews\Console\CreateAlphaNewsModuleCommand;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as ParentProvider;
+use League\Flysystem\Config;
 
 class ServiceProvider extends ParentProvider
 {
@@ -35,7 +36,6 @@ class ServiceProvider extends ParentProvider
     {
         Route::group([
             'namespace' => 'AlphaNews\Http\Controllers',
-            'middleware' => config('alphanews.routes.middleware', ['web']),
         ], function () {
             $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         });
@@ -82,13 +82,15 @@ class ServiceProvider extends ParentProvider
     }
 
     /**
-     * Register the AlphaNews migrations.
+     * Register the AlphaNews migrations publishing.
      */
     protected function registerMigrationsPublishing(): void
     {
-        $this->publishes([
-            __DIR__.'/../database/migrations' => database_path('migrations'),
-        ], 'alphanews-migrations');
+        if (config('alphanews.register_migrations', true)) {
+            $this->publishes([
+                __DIR__.'/../database/migrations' => database_path('migrations'),
+            ], 'alphanews-migrations');
+        }
     }
 
     /**
