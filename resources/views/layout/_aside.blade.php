@@ -20,49 +20,49 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <em class="nav-icon fas fa-newspaper"></em>
+                        <i class="nav-icon fas fa-newspaper"></i>
                         <p>
-                            UI Posts
-                            <em class="fas fa-angle-left right"></em>
+                            Posts
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">
-
                         <li class="nav-item">
                             <a href="{{ route('alphanews.posts.index') }}" class="nav-link">
-                                <em class="far fa-circle nav-icon"></em>
+                                <em class="fas fa-circle nav-icon"></em>
                                 <p>My Posts</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a href="{{ route('alphanews.posts.all') }}" class="nav-link">
-                                <em class="far fa-circle nav-icon"></em>
+                                <em class="fas fa-circle nav-icon"></em>
                                 <p>All Posts</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" onclick="document.getElementById('post-create').submit()">
-                                <em class="far fa-circle nav-icon"></em>
+                            <a href="#" class="nav-link" onclick="document.getElementById('post-create').submit()">
+                                <em class="fas fa-circle nav-icon"></em>
                                 <p>Add new</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a href="{{route('alphanews.post-categories.index')}}" class="nav-link">
-                                <em class="far fa-circle nav-icon"></em>
+                                <em class="fas fa-circle nav-icon"></em>
                                 <p>Post Categories</p>
                             </a>
                         </li>
-
-                        <li class="nav-item">
-                            <a href="{{ route('alphanews.tags.index') }}" class="nav-link">
-                                <em class="far fa-circle nav-icon"></em>
-                                <p>Tags</p>
-                            </a>
-                        </li>
                     </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ route('alphanews.tags.index') }}" class="nav-link">
+                        <em class="fas fa-tags nav-icon"></em>
+                        <p>Tags</p>
+                    </a>
+                </li>
                 <li class="nav-item ">
                     <a href="{{ route('alphanews.media-folders.index') }}" class="nav-link ">
                         <em class="nav-icon fas fa-images"></em>
@@ -72,6 +72,9 @@
                     </a>
                 </li>
             </ul>
+            <form id="post-create" action="{{ route('alphanews.posts.store') }}" method="post">
+                @csrf
+            </form>
         </nav>
     </div>
 </aside>
