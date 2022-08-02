@@ -1,6 +1,6 @@
 {
     "name": "aqamarine/alphanews",
-    "description": "Admin panel for news",
+    "description": "Package used to easily and fast add News managing functionality to Laravel project",
     "type": "library",
     "keywords": [
         "alphanews",
