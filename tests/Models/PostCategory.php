@@ -41,8 +41,6 @@ class PostCategory extends Model
 {
     use HasFactory, AlphaNewsPostCategoryTrait;
 
-    protected $fillable = ['name', 'color', 'posts_amount', 'post_category_id'];
-
     protected static function newFactory(): PostCategoryFactory
     {
         return PostCategoryFactory::new();

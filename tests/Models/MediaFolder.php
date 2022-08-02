@@ -3,6 +3,7 @@
 namespace Aqamarine\AlphaNews\Tests\Models;
 
 use Aqamarine\AlphaNews\Tests\Factories\MediaFolderFactory;
+use Aqamarine\AlphaNews\Traits\AlphaNewsMediaFolderTrait;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,9 +31,7 @@ use Illuminate\Support\Carbon;
 
 class MediaFolder extends Model
 {
-    use HasFactory;
-
-    protected $fillable = ['name', 'media_folder_id'];
+    use HasFactory, AlphaNewsMediaFolderTrait;
 
     protected static function newFactory(): MediaFolderFactory
     {

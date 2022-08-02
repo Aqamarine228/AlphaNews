@@ -99,7 +99,7 @@ For package to work you need to specify models path in config
 ]
 ```
 
-Models required by package should use traits provided in package and include same fillable properties as below
+Models required by package should use traits provided by package
 
 ```php
 //.../Models/Image.php
@@ -107,8 +107,6 @@ Models required by package should use traits provided in package and include sam
 class Image extends Model
 {
     use AlphaNewsoImageTrait;
-    
-    protected $fillable = ['media_folder_id', 'name'];
 }
 
 //.../Models/PostCategory.php
@@ -116,8 +114,6 @@ class Image extends Model
 class PostCategory extends Model
 {
     use AlphaNewsPostCategoryTrait;
-    
-    protected $fillable = ['name', 'color', 'posts_amount', 'post_category_id'];
 }
 
 //.../Models/Post.php
@@ -125,11 +121,6 @@ class PostCategory extends Model
 class Post extends Model
 {
     use AlphaNewsPostTrait;
-    
-    protected $fillable = [
-        'post_category_id', 'author_id', 'title', 'short_content', 'short_title', 'content', 'picture',
-        'published_at', 'is_trending_now', 'views', 'media_type'
-    ];
 }
 
 //.../Models/Tag.php
@@ -137,15 +128,13 @@ class Post extends Model
 class Tag extends Model
 {
     use AlphaNewsTagTrait;
-    
-    protected $fillable = ['name', 'posts_amount'];
 }
 
 //.../Models/MediaFolder.php
 
 class MediaFolder extends Model
 {
-    protected $fillable = ['name', 'media_folder_id'];
+   use AlphaNewsMediaFolderTrait;
 }
 ```
 

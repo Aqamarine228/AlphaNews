@@ -9,6 +9,16 @@ use Illuminate\Support\Facades\Storage;
 
 trait AlphaNewsPostTrait
 {
+
+    public function initializeAlphaNewsPostTrait(): void
+    {
+        $this->fillable = array_merge($this->fillable, [
+            'post_category_id', 'author_id', 'title', 'short_content', 'short_title', 'content', 'picture',
+            'published_at', 'is_trending_now', 'views', 'media_type'
+        ]);
+        $this->dates = array_merge($this->dates, ['published_at']);
+    }
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(

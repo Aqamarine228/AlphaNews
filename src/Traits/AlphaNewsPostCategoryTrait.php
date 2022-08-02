@@ -7,6 +7,11 @@ use Illuminate\Support\Facades\Config;
 
 trait AlphaNewsPostCategoryTrait
 {
+    public function initializeAlphaNewsPostCategoryTrait(): void
+    {
+        $this->fillable = array_merge($this->fillable, ['name', 'color', 'posts_amount', 'post_category_id']);
+    }
+
     public function posts(): HasMany
     {
         return $this->hasMany(
