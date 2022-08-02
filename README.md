@@ -11,7 +11,7 @@
 [//]: # ([![Dependents]&#40;http://poser.pugx.org/aqamarine/alphanews/dependents&#41;]&#40;https://packagist.org/packages/aqamarine/alphanews&#41;)
 
 
-Package used to easily and fast add News managing functionality to Laravel project
+Package used to easily and fast add news managing functionality to Laravel project
 
 ## Installation
 
