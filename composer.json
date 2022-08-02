@@ -1,7 +1,12 @@
 {
     "name": "aqamarine/alphanews",
     "description": "Admin panel for news",
-    "type": "composer-plugin",
+    "type": "library",
+    "keywords": [
+        "alphanews",
+        "alphadev",
+        "news"
+    ],
     "require": {
         "php": ">=8.1",
         "laravel/framework": "^9.21",
