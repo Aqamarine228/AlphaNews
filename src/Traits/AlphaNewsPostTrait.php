@@ -42,8 +42,8 @@ trait AlphaNewsPostTrait
         return $this->belongsToMany(
             Config::get('alphanews.models.tag'),
             'post_tag',
+            Config::get('alphanews.foreign_keys.post'),
             Config::get('alphanews.foreign_keys.tag'),
-            Config::get('alphanews.foreign_keys.post')
         );
     }
 
@@ -54,22 +54,22 @@ trait AlphaNewsPostTrait
 
     public function isStep1Completed(): bool
     {
-        return (bool) $this->post_category_id;
+        return (bool)$this->post_category_id;
     }
 
     public function isStep2Completed(): bool
     {
-        return (bool) $this->title;
+        return (bool)$this->title;
     }
 
     public function isStep3Completed(): bool
     {
-        return (bool) $this->short_title;
+        return (bool)$this->short_title;
     }
 
     public function isStep4Completed(): bool
     {
-        return (bool) $this->picture;
+        return (bool)$this->picture;
     }
 
     public function publishable(): bool
@@ -82,11 +82,13 @@ trait AlphaNewsPostTrait
 
     public function originalImage(): string
     {
-        return Storage::url(config('alphanews.posts.filesystem.original_images_path') . $this->picture);
+        return Storage::disk(config('alphanews.posts.filesystem.disk'))
+            ->url(config('alphanews.posts.filesystem.original_images_path') . '/' . $this->picture);
     }
 
     public function previewImage(): string
     {
-        return Storage::url(config('alphanews.posts.filesystem.preview_images_path') . $this->picture);
+        return Storage::disk(config('alphanews.posts.filesystem.disk'))
+            ->url(config('alphanews.posts.filesystem.preview_images_path') . '/' . $this->picture);
     }
 }

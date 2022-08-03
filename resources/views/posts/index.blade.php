@@ -36,19 +36,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('alphanews.posts.edit', $post->id) }}"
-                                       class="btn btn-sm btn-primary d-inline"><em class="fas fa-eye"></em> Edit</a>
-                                    @if ($post->isPublished())
-                                        <form action="{{ route('alphanews.posts.update.main', $post->id) }}"
-                                              method="POST"
-                                              class="d-inline">
-                                            @csrf
-                                            @method('put')
-                                            <button type="submit" class="btn btn-sm btn-info"><em
-                                                    class="fab fa-hotjar"></em> Make Top
-                                            </button>
-                                        </form>
-                                    @endif
+                                    @include('alphanews::posts.blocks._actions')
                                 </td>
                             </tr>
                         @endforeach

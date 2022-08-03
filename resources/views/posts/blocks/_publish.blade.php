@@ -25,7 +25,7 @@
         @else
             <form action="{{ route('alphanews.posts.unpublish', $post->id) }}" method="post">
                 @csrf
-                <button class="btn btn-outline-warning">Hiden</button>
+                <button class="btn btn-outline-warning">Hide</button>
             </form>
         @endif
     </div>

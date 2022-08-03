@@ -16,11 +16,11 @@ return new class() extends Migration {
             $table->foreign(Config::get('alphanews.foreign_keys.tag'))
                 ->references('id')
                 ->on((new $tag())->getTable())
-            ;
+                ->onDelete('cascade');
             $table->foreign(Config::get('alphanews.foreign_keys.post'))
                 ->references('id')
                 ->on((new $post())->getTable())
-            ;
+                ->onDelete('cascade');
             $table->unique([
                 Config::get('alphanews.foreign_keys.tag'),
                 Config::get('alphanews.foreign_keys.post'),
@@ -31,8 +31,8 @@ return new class() extends Migration {
     public function down(): void
     {
         Schema::table('post_tag', static function (Blueprint $table) {
-            $table->dropForeign('post_tag_'.Config::get('alphanews.foreign_keys.tag').'_foreign');
-            $table->dropForeign('post_tag_'.Config::get('alphanews.foreign_keys.post').'_foreign');
+            $table->dropForeign('post_tag_' . Config::get('alphanews.foreign_keys.tag') . '_foreign');
+            $table->dropForeign('post_tag_' . Config::get('alphanews.foreign_keys.post') . '_foreign');
         });
         Schema::dropIfExists('post_tag');
     }
