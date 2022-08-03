@@ -209,7 +209,7 @@ class PostsController extends AlphaNewsController
     {
         $validated = $this->validate(request(), [
             'tags' => 'nullable|array',
-            'tags.*' => 'required|exists:tags,name'
+            'tags.*' => 'required|string|max:255'
         ]);
 
         $this->postModel::findOrFail($id)->tags()->sync($this->getTagIdsByNames($validated['tags'] ?? []));
