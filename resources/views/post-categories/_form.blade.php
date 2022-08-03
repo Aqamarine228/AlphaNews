@@ -1,4 +1,6 @@
-<form action="{{ $model->exists ? route('alphanews.post-categories.update', $model->id) : route('alphanews.post-categories.store') }}" method="POST">
+<form
+    action="{{ $model->exists ? route('alphanews.post-categories.update', $model->id) : route('alphanews.post-categories.store') }}"
+    method="POST">
 
     @csrf
     @if ($model->exists)
@@ -27,7 +29,7 @@
         'type' => 'select',
         'required' => true,
         'label' => 'Parent',
-        'name' => 'parent_category_id',
+        'name' => 'post_category_id',
         'items' => [
             null => 'None'
         , ...$categories],
@@ -35,7 +37,7 @@
     ])
 
     <button class="btn btn-primary">
-        <i class="fa fa-save"></i>
+        <em class="fa fa-save"></em>
         Save
     </button>
 </form>
