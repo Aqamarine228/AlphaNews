@@ -12,7 +12,6 @@
 @push('styles')
     <link rel="stylesheet" href="{{asset('vendor/alphanews/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('vendor/alphanews/plugins/croppie/css/croppie.css')}}">
-
 @endpush
 
 @section('content')
@@ -40,7 +39,7 @@
                             @include('alphanews::posts.blocks._content-form')
                         </div>
                         <div class="chart tab-pane" id="preview">
-                            @include('alphanews::posts.blocks._short_content-form')
+                            @include('alphanews::posts.blocks._short-content-form')
                         </div>
                     </div>
                 </div>
@@ -49,10 +48,11 @@
         <div class="col-md-3">
             @include('alphanews::posts.blocks._status')
             @include('alphanews::posts.blocks._publish')
+            @include('alphanews::posts.blocks._add-to-top')
             @include('alphanews::posts.blocks._category')
             @include('alphanews::posts.blocks._media-type')
-            @include('alphanews::posts.blocks._image')
             @include('alphanews::posts.blocks._tags')
+            @include('alphanews::posts.blocks._image')
         </div>
     </div>
     @include('alphanews::posts.blocks._crop-image-modal')
@@ -80,8 +80,9 @@
     </script>
     <script src="{{asset('vendor/alphanews/plugins/select2/js/select2.min.js')}}"></script>
     <script>
-        $('#post_category_id').select2();
+        $('#post_category_id').select2({height: 300});
         $('#media_type').select2();
+        $('.select2-selection').css('height', '40px');
     </script>
     <script>
         @php

@@ -3,20 +3,21 @@ $items = $items instanceof \Illuminate\Support\Collection ? $items->toArray() : 
 $multiple = $multiple ?? false;
 $isItemsAssocArray = $items === array_values($items);
 ?>
-<select name="{{ $name }}" id="{{ $id }}" class="form-control  @error($errorName) is-invalid @enderror"
+<select name="{{ $name }}" id="{{ $id }}"
+        class="form-control  @error($errorName) is-invalid @enderror"
         {{ $multiple ? 'multiple' : '' }} @if ($disabled) disabled @endif>
 
     @foreach($items as $key => $item)
         @php $value = $isItemsAssocArray ? $item : $key;  @endphp
         <option value="{{ $value }}"
-            @if (is_array($defaultValue) || $defaultValue instanceof \Illuminate\Support\Collection)
-                @foreach($defaultValue as $valueItem)
-                    {{ $valueItem == $value ? 'selected' : ''  }}
+        @if (is_array($defaultValue) || $defaultValue instanceof \Illuminate\Support\Collection)
+            @foreach($defaultValue as $valueItem)
+                {{ $valueItem == $value ? 'selected' : ''  }}
                 @endforeach
             @else
-                {{ $defaultValue == $value ? 'selected' : ''  }}
+            {{ $defaultValue == $value ? 'selected' : ''  }}
             @endif
-            >
+        >
             {{ $item }}
         </option>
         {{--        @if (is_array($defaultValue) || $defaultValue instanceof \Illuminate\Database\Eloquent\Collection)--}}

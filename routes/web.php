@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix(config('alphanews.routes.path', 'alphanews'))
     ->middleware(config('alphanews.routes.middleware', ['web', 'auth:web']))
-    ->name(config('alphanews.routes.route_name_prefix', 'alphanews').'.')
+    ->name(config('alphanews.routes.route_name_prefix', 'alphanews') . '.')
     ->group(function () {
         Route::get('/dashboard', [AdminPanelController::class, 'dashboard'])->name('dashboard');
 
@@ -55,6 +55,7 @@ Route::prefix(config('alphanews.routes.path', 'alphanews'))
                 Route::put('/tags', [PostsController::class, 'updateTags'])->name('update.tags');
                 Route::put('/image', [PostsController::class, 'updateImage'])->name('update.image');
                 Route::put('/main', [PostsController::class, 'mainPost'])->name('update.main');
+                Route::delete('/destroy', [PostsController::class, 'destroy'])->name('destroy');
 
                 Route::post('/publish', [PublishPostController::class, 'publish'])->name('publish');
                 Route::post('/unpublish', [PublishPostController::class, 'unPublish'])->name('unpublish');

@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 
 class TagsController extends AlphaNewsController
 {
@@ -34,7 +35,16 @@ class TagsController extends AlphaNewsController
 
     public function store(TagRequest $request): RedirectResponse
     {
-        $this->tagModel::create($request->validated());
+        $name = Str::snake($request->validated()['name']);
+
+        if ($this->tagModel::whereName($name)->exists()) {
+            $this->showErrorMessage("Tag with same name already exists (tag names are auto formatted in snake case)");
+            return back();
+        }
+
+        $this->tagModel::create([
+            'name' => $name,
+        ]);
         $this->showSuccessMessage('Tag successfully created.');
 
         return redirect()->route('alphanews.tags.index');

@@ -1,10 +1,11 @@
 <script src="{{asset('vendor/alphanews/plugins/jquery/jquery.min.js')}}"></script>
 <script src="{{asset('vendor/alphanews/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('vendor/alphanews/plugins/sweetalert2/dist/sweetalert2.all.min.js')}}"></script>
 <script src="{{asset('vendor/alphanews/js/adminlte.min.js')}}"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         //option A
-        $("button[data-ask=1]").click(function(e, params){
+        $("button[data-ask=1]").click(function (e, params) {
             var localParams = params || {};
             if (!localParams.send) {
                 e.preventDefault();
@@ -15,7 +16,7 @@
             Swal.fire({
                 title: $(button).data('title'),
                 text: $(button).data('message'),
-                type: type,
+                icon: type,
                 input: $(this).data('input') ? $(this).data('input') : false,
                 showCancelButton: true,
                 confirmButtonColor: "#1e88e5",
@@ -69,7 +70,7 @@
                 xhr.withCredentials = false;
                 xhr.open('POST', '{{ route('alphanews.media-folders.images.store-from-tinymce') }}');
 
-                xhr.onload = function() {
+                xhr.onload = function () {
                     if (xhr.status < 200 || xhr.status >= 300) {
                         failure('HTTP Error: ' + xhr.status);
                         return;
@@ -133,7 +134,7 @@
                 //
                 // var tc = decodedStripped.length;
                 // return tc;
-                var tx = editor.getContent({ format: 'raw' });
+                var tx = editor.getContent({format: 'raw'});
                 var decodedStripped = tx.replace(/(<([^>]+)>)/ig, '');
                 var decoded = decodeHtml(decodedStripped);
 

@@ -100,9 +100,9 @@ class UpdateTest extends PostsTestCase
         ], $this->jsonHeader)->assertStatus(302);
         $imageName = Post::find($this->emptyPost->id)->picture;
         self::assertTrue(Storage::disk(Config::get('alphanews.posts.filesystem.disk'))
-            ->exists(Config::get('alphanews.posts.filesystem.preview_images_path') . $imageName));
+            ->exists(Config::get('alphanews.posts.filesystem.preview_images_path') . '/' . $imageName));
         self::assertTrue(Storage::disk(Config::get('alphanews.posts.filesystem.disk'))
-            ->exists(Config::get('alphanews.posts.filesystem.original_images_path') . $imageName));
+            ->exists(Config::get('alphanews.posts.filesystem.original_images_path') . '/' . $imageName));
     }
 
     public function testUpdateMain(): void

@@ -69,7 +69,7 @@ class PostsController extends AlphaNewsController
     {
         $post = $this->postModel::findOrFail($id);
         if (!$post->isPublished()) {
-            $this->showWarningMessage('Can not make this News main because it has not published yet');
+            $this->showWarningMessage('Can not make this News main because it is not published yet');
             return back();
         }
 
@@ -78,7 +78,7 @@ class PostsController extends AlphaNewsController
             $post->update(['is_trending_now' => true]);
         });
 
-        $this->showSuccessMessage($post->short_title .' is the main news now');
+        $this->showSuccessMessage($post->short_title . ' is the main post now');
         return back();
     }
 
@@ -118,7 +118,7 @@ class PostsController extends AlphaNewsController
     public function updateCategory(int $id): RedirectResponse
     {
         $validated = $this->validate(request(), [
-            'post_category_id' => 'required|integer|exists:'.(new $this->postCategoryModel)->getTable().',id',
+            'post_category_id' => 'required|integer|exists:' . (new $this->postCategoryModel)->getTable() . ',id',
         ]);
 
         $this->postModel::findOrFail($id)->update($validated);
@@ -172,7 +172,7 @@ class PostsController extends AlphaNewsController
 
     protected function cropAndUploadImagesByName(UploadedFile $image, int $postId): string
     {
-        $fileName = $postId . ' _ ' . time() . '.png';
+        $fileName = $postId . '_' . time() . '.png';
 
         $image = Image::make($image)->crop(...array_values(request()->only(['width', 'height', 'x1', 'y1'])));
 
@@ -189,9 +189,15 @@ class PostsController extends AlphaNewsController
         $originalImage = $image->encode('png');
 
         Storage::disk(Config::get('alphanews.posts.filesystem.disk'))
-            ->put(Config::get('alphanews.posts.filesystem.preview_images_path') . $fileName, $previewImage->stream());
+            ->put(
+                Config::get('alphanews.posts.filesystem.preview_images_path') . '/' . $fileName,
+                $previewImage->stream()
+            );
         Storage::disk(Config::get('alphanews.posts.filesystem.disk'))
-            ->put(Config::get('alphanews.posts.filesystem.original_images_path') . $fileName, $originalImage->stream());
+            ->put(
+                Config::get('alphanews.posts.filesystem.original_images_path') . '/' . $fileName,
+                $originalImage->stream()
+            );
 
         return $fileName;
     }
@@ -202,7 +208,8 @@ class PostsController extends AlphaNewsController
     public function updateTags(int $id): RedirectResponse
     {
         $validated = $this->validate(request(), [
-            'tags' => 'array',
+            'tags' => 'nullable|array',
+            'tags.*' => 'required|string|max:255'
         ]);
 
         $this->postModel::findOrFail($id)->tags()->sync($this->getTagIdsByNames($validated['tags'] ?? []));
@@ -220,6 +227,13 @@ class PostsController extends AlphaNewsController
         }
 
         return redirect()->route('alphanews.posts.edit', $post->id);
+    }
+
+    public function destroy(int $id): RedirectResponse
+    {
+        $this->postModel::findOrFail($id)->delete();
+        $this->showSuccessMessage('Post deleted successfully');
+        return redirect()->route('alphanews.posts.index');
     }
 
     private function getEmptyPost(mixed $user): mixed

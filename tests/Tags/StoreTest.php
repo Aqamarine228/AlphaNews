@@ -14,7 +14,7 @@ class StoreTest extends TagsTestCase
         $this->post($this->url(), [
             'name' => 'GoodTag',
         ])->assertStatus(302);
-        self::assertTrue(Tag::whereName('GoodTag')->exists());
+        self::assertTrue(Tag::whereName('good_tag')->exists());
     }
 
     public function testStoreValidationRequired(): void
