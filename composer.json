@@ -37,7 +37,7 @@
         }
     ],
     "prefer-stable": true,
-    "minimum-stability": "dev",
+    "minimum-stability": "master",
     "extra": {
         "laravel": {
             "providers": [
