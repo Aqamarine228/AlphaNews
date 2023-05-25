@@ -3,6 +3,12 @@
 namespace Aqamarine\AlphaNews;
 
 use Aqamarine\AlphaNews\Console\CreateAlphaNewsModuleCommand;
+use Aqamarine\AlphaNews\Console\ImageControllerMakeCommand;
+use Aqamarine\AlphaNews\Console\MediaFolderControllerMakeCommand;
+use Aqamarine\AlphaNews\Console\PostCategoryControllerMakeCommand;
+use Aqamarine\AlphaNews\Console\PostControllerMakeCommand;
+use Aqamarine\AlphaNews\Console\PublishPostControllerMakeCommand;
+use Aqamarine\AlphaNews\Console\TagControllerMakeCommand;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as ParentProvider;
@@ -37,7 +43,7 @@ class ServiceProvider extends ParentProvider
         Route::group([
             'namespace' => 'AlphaNews\Http\Controllers',
         ], function () {
-            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         });
     }
 
@@ -46,7 +52,7 @@ class ServiceProvider extends ParentProvider
      */
     protected function registerResources(): void
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'alphanews');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'alphanews');
     }
 
     /**
@@ -56,7 +62,13 @@ class ServiceProvider extends ParentProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                CreateAlphaNewsModuleCommand::class
+                CreateAlphaNewsModuleCommand::class,
+                ImageControllerMakeCommand::class,
+                MediaFolderControllerMakeCommand::class,
+                PostCategoryControllerMakeCommand::class,
+                PostControllerMakeCommand::class,
+                PublishPostControllerMakeCommand::class,
+                TagControllerMakeCommand::class,
             ]);
         }
     }
@@ -67,7 +79,7 @@ class ServiceProvider extends ParentProvider
     protected function registerConfigPublishing(): void
     {
         $this->publishes([
-            __DIR__.'/../config/alphanews.php' => config_path('alphanews.php'),
+            __DIR__ . '/../config/alphanews.php' => config_path('alphanews.php'),
         ], 'alphanews-config');
     }
 
@@ -77,7 +89,7 @@ class ServiceProvider extends ParentProvider
     protected function registerAssetPublishing(): void
     {
         $this->publishes([
-            __DIR__.'/../public' => public_path('vendor/alphanews'),
+            __DIR__ . '/../public' => public_path('vendor/alphanews'),
         ], 'alphanews-assets');
     }
 
@@ -88,7 +100,7 @@ class ServiceProvider extends ParentProvider
     {
         if (config('alphanews.register_migrations', true)) {
             $this->publishes([
-                __DIR__.'/../database/migrations' => database_path('migrations'),
+                __DIR__ . '/../database/migrations' => database_path('migrations'),
             ], 'alphanews-migrations');
         }
     }
@@ -98,6 +110,6 @@ class ServiceProvider extends ParentProvider
      */
     protected function configure(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/alphanews.php', 'alphanews');
+        $this->mergeConfigFrom(__DIR__ . '/../config/alphanews.php', 'alphanews');
     }
 }
