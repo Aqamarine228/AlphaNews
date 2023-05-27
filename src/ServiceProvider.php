@@ -4,9 +4,14 @@ namespace Aqamarine\AlphaNews;
 
 use Aqamarine\AlphaNews\Console\CreateAlphaNewsModuleCommand;
 use Aqamarine\AlphaNews\Console\ImageControllerMakeCommand;
+use Aqamarine\AlphaNews\Console\ImageModelMakeCommand;
 use Aqamarine\AlphaNews\Console\MediaFolderControllerMakeCommand;
+use Aqamarine\AlphaNews\Console\MediaFolderModelMakeCommand;
 use Aqamarine\AlphaNews\Console\PostCategoryControllerMakeCommand;
+use Aqamarine\AlphaNews\Console\PostCategoryModelMakeCommand;
 use Aqamarine\AlphaNews\Console\PostControllerMakeCommand;
+use Aqamarine\AlphaNews\Console\PostModelMakeCommand;
+use Aqamarine\AlphaNews\Console\PostTagModelMakeCommand;
 use Aqamarine\AlphaNews\Console\PublishPostControllerMakeCommand;
 use Aqamarine\AlphaNews\Console\TagControllerMakeCommand;
 use Illuminate\Pagination\Paginator;
@@ -69,6 +74,11 @@ class ServiceProvider extends ParentProvider
                 PostControllerMakeCommand::class,
                 PublishPostControllerMakeCommand::class,
                 TagControllerMakeCommand::class,
+                ImageModelMakeCommand::class,
+                MediaFolderModelMakeCommand::class,
+                PostModelMakeCommand::class,
+                PostCategoryModelMakeCommand::class,
+                PostTagModelMakeCommand::class,
             ]);
         }
     }

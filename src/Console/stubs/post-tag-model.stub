@@ -1,0 +1,24 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+class PostTag extends \$BASE_MODEL$
+{
+    use HasFactory;
+
+    protected $fillable = ['name', 'post_amount'];
+
+    /**
+    * Relations
+    */
+
+    public function posts(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Post::class,
+        );
+    }
+}
