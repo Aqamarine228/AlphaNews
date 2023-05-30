@@ -1,6 +1,5 @@
 <?php
 
-use Aqamarine\AlphaNews\Http\Controllers\AdminPanelController;
 use Aqamarine\AlphaNews\Http\Controllers\ImagesController;
 use Aqamarine\AlphaNews\Http\Controllers\MediaFoldersController;
 use Aqamarine\AlphaNews\Http\Controllers\PostCategoriesController;
@@ -9,45 +8,26 @@ use Aqamarine\AlphaNews\Http\Controllers\PublishPostController;
 use Aqamarine\AlphaNews\Http\Controllers\TagsController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix(config('alphanews.routes.path', 'alphanews'))
-    ->middleware(config('alphanews.routes.middleware', ['web', 'auth:web']))
-    ->name(config('alphanews.routes.route_name_prefix', 'alphanews') . '.')
+Route::middleware(['web', 'auth:web'])
     ->group(function () {
-        Route::get('/dashboard', [AdminPanelController::class, 'dashboard'])->name('dashboard');
+        Route::resource('post-tag', PostTagController::class)->except('show', 'edit', 'update');
 
-        Route::prefix('/tags')->name('tags.')->group(function () {
-            Route::get('/', [TagsController::class, 'index'])->name('index');
-            Route::post('/', [TagsController::class, 'store'])->name('store');
-            Route::get('/create', [TagsController::class, 'create'])->name('create');
-            Route::delete('/{id}', [TagsController::class, 'destroy'])->name('destroy');
-        });
+        Route::resource('post-category', PostCategoryController::class)->except('show');
 
-        Route::prefix('/post-categories')->name('post-categories.')->group(function () {
-            Route::get('/create', [PostCategoriesController::class, 'create'])->name('create');
-            Route::post('/', [PostCategoriesController::class, 'store'])->name('store');
-            Route::get('/{id?}', [PostCategoriesController::class, 'index'])->name('index');
-            Route::prefix('/{id}')->group(function () {
-                Route::get('/edit', [PostCategoriesController::class, 'edit'])->name('edit');
-                Route::put('/', [PostCategoriesController::class, 'update'])->name('update');
-                Route::delete('/', [PostCategoriesController::class, 'destroy'])->name('destroy');
-            });
-        });
-
-        Route::prefix('/media-folders')->name('media-folders.')->group(function () {
+        Route::prefix('/media-folder')->name('media-folders.')->group(function () {
             Route::post('/', [MediaFoldersController::class, 'store'])->name('store');
-            Route::get('/{id?}', [MediaFoldersController::class, 'index'])->name('index');
-            Route::prefix('/images')->name('images.')->group(function () {
+            Route::get('/{mediaFolder}', [MediaFoldersController::class, 'index'])->name('index');
+            Route::prefix('/images')->name('image.')->group(function () {
                 Route::post('/tinymce', [ImagesController::class, 'storeFromTinymce'])->name('store-from-tinymce');
                 Route::post('/', [ImagesController::class, 'store'])->name('store');
             });
         });
 
-        Route::prefix('/posts')->name('posts.')->group(function () {
-            Route::get('/', [PostsController::class, 'index'])->name('index');
+        Route::resource('post', PostController::class)->except('show', 'update');
+
+        Route::prefix('/post')->name('post.')->group(function () {
             Route::get('/all', [PostsController::class, 'indexAllPosts'])->name('all');
-            Route::post('/', [PostsController::class, 'store'])->name('store');
-            Route::prefix('/{id}')->group(function () {
-                Route::get('/edit', [PostsController::class, 'edit'])->name('edit');
+            Route::prefix('/{post}')->group(function () {
                 Route::put('/content', [PostsController::class, 'updateContent'])->name('update.content');
                 Route::put('/preview', [PostsController::class, 'updatePreview'])->name('update.preview');
                 Route::put('/category', [PostsController::class, 'updateCategory'])->name('update.category');
@@ -55,8 +35,6 @@ Route::prefix(config('alphanews.routes.path', 'alphanews'))
                 Route::put('/tags', [PostsController::class, 'updateTags'])->name('update.tags');
                 Route::put('/image', [PostsController::class, 'updateImage'])->name('update.image');
                 Route::put('/main', [PostsController::class, 'mainPost'])->name('update.main');
-                Route::delete('/destroy', [PostsController::class, 'destroy'])->name('destroy');
-
                 Route::post('/publish', [PublishPostController::class, 'publish'])->name('publish');
                 Route::post('/unpublish', [PublishPostController::class, 'unPublish'])->name('unpublish');
             });

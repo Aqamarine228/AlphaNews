@@ -43,7 +43,7 @@ abstract class ModelGeneratorCommand extends GeneratorCommand
     {
         $module = $this->laravel['modules'];
 
-        return $module->config('paths.generator.controller.namespace')
+        return $module->config('paths.generator.model.namespace')
             ?: $module->config('paths.generator.model.path', 'Http/Entities');
     }
 

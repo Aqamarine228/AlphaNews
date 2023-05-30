@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class() extends Migration {
     public function up(): void
     {
-        Schema::create('tags', static function (Blueprint $table) {
+        Schema::create('post_tags', static function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->bigInteger('posts_amount')->default(0);
@@ -17,6 +17,6 @@ return new class() extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('post_tags');
     }
 };

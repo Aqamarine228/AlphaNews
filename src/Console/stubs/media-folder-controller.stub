@@ -21,7 +21,7 @@ class MediaFolderController extends \$BASE_CONTROLLER$
         )->paginate();
         $images = Image::where('media_folder_id', $mediaFolder?->id)->get();
 
-        return $this->view('media-folders.index', [
+        return $this->view('media-folder.index', [
             'rootFolder' => $mediaFolder,
             'subFolders' => $subFolders,
             'images' => $images,

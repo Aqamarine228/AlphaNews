@@ -1,0 +1,57 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use $MODELS_NAMESPACE$\PostTag;
+
+class PostTagController extends \$BASE_CONTROLLER$
+{
+    public function index(): Factory|View|Application
+    {
+        $tags = PostTag::orderBy('posts_amount', 'desc')->paginate(20);
+
+        return $this->view('post-tag.index', [
+            'tags' => $tags,
+        ]);
+    }
+
+    public function create(): View|Factory|Application
+    {
+        return $this->view('tags.create');
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $name = Str::snake($request->validate(['name' => 'required|string|max:255'])['name']);
+
+        if (PostTag::whereName($name)->exists()) {
+            $this->showErrorMessage("Tag with same name already exists (tag names are auto formatted in snake case)");
+            return back();
+        }
+
+        PostTag::create([
+            'name' => $name,
+        ]);
+        $this->showSuccessMessage('Tag successfully created.');
+
+        return redirect()->route('$MODULE_NAME$.post-tag.index');
+    }
+
+    public function destroy(PostTag $postTag): RedirectResponse
+    {
+        if (!$postTag->posts()->exists()) {
+            $postTag->delete();
+            $this->showSuccessMessage('Tag successfully deleted');
+        } else {
+            $this->showWarningMessage('Can not delete tag with posts');
+        }
+
+        return back();
+    }
+}

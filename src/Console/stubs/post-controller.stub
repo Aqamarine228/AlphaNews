@@ -29,7 +29,7 @@ class PostController extends \$BASE_CONTROLLER$
             ->latest()
             ->paginate(20);
 
-        return $this->view('posts.index', [
+        return $this->view('post.index', [
             'posts' => $posts
         ]);
     }
@@ -38,15 +38,16 @@ class PostController extends \$BASE_CONTROLLER$
     {
         $posts = Post::latest()->paginate(20);
 
-        return $this->view('posts.index', [
+        return $this->view('post.index', [
             'posts' => $posts
         ]);
     }
 
-    public function edit(Post $post): Factory|View|Application
+    public function edit(Request $request, Post $post): Factory|View|Application
     {
-        return $this->view('posts.edit', [
+        return $this->view('post.edit', [
             'post' => $post,
+            'tags' => PostTag::select(['id', 'name'])->when(request()->get('q'), function ($query, $search) {$query->where('name', 'like', '%' . $search . '%');})->limit(5)->get(),
             'categories' => PostCategory::pluck('name', 'id'),
             'postTags' => $post->tags()->pluck('name'),
             'postMediaTypes' => collect(PostMediaType::cases())->pluck('name', 'value')
@@ -148,7 +149,7 @@ class PostController extends \$BASE_CONTROLLER$
 
         $imageName = $this->cropAndUploadImagesByName(
             $validated['picture'],
-            $post->id,
+            $post,
         );
 
         if ($post->picture) {
@@ -216,7 +217,7 @@ class PostController extends \$BASE_CONTROLLER$
             ]);
         }
 
-        return redirect()->route('$MODULE_NAME$.posts.edit', $post->id);
+        return redirect()->route('$MODULE_NAME$.post.edit', $post->id);
     }
 
     public function destroy(Post $post): RedirectResponse

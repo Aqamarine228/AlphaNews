@@ -1,0 +1,17 @@
+<form action="{{ route('post-tag.store') }}" method="POST">
+
+    @csrf
+
+    @include('components.input_group', [
+        'type' => 'text',
+        'required' => true,
+        'label' => 'Name',
+        'name' => 'name',
+        'placeholder' => 'Tag',
+    ])
+
+    <button class="btn btn-primary">
+        <i class="fa fa-save"></i>
+        Save
+    </button>
+</form>

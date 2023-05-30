@@ -18,7 +18,7 @@ return [
 
         'post_category' => \App\Models\PostCategory::class,
 
-        'tag' => \App\Models\Tag::class,
+        'tag' => \App\Models\PostTag::class,
 
         'user' => \App\Models\User::class,
 

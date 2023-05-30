@@ -1,6 +1,5 @@
 # AlphaNews (Laravel Package)
 
-
 [![Tests](https://github.com/Aqamarine228/AlphaNews/workflows/Test/badge.svg)](https://github.com/Aqamarine228/AlphaNews/actions)
 ![GitHub](https://img.shields.io/github/license/aqamarine228/alphanews)
 [![Latest Stable Version](http://poser.pugx.org/aqamarine/alphanews/v)](https://packagist.org/packages/aqamarine/alphanews)
@@ -37,7 +36,6 @@ $ php artisan vendor:publish --tag="alphanews-assets"
 $ php artisan vendor:publish --tag="alphanews-migrations"
 ```
 
-
 ### Publish Config (Optional)
 
 ```bash
@@ -46,7 +44,8 @@ $ php artisan vendor:publish --tag="alphanews-config"
 
 ## Package Configuration (Module setup)
 
-For using this package as ['nWidart/laravel-modules'](https://github.com/nWidart/laravel-modules) module, install this package first
+For using this package as ['nWidart/laravel-modules'](https://github.com/nWidart/laravel-modules) module, install this
+package first
 
 ```bash
 $ composer require nWidart/laravel-modules
@@ -56,6 +55,7 @@ Next you are planing to use this package only as a Laravel module you need to
 change package 'ServiceProvider' to 'OnlyCommandsServiceProvider' in app config file
 
 #### Make sure default package ServiceProvider is commented out
+
 ```php
 //config/app.php
 
@@ -89,7 +89,7 @@ For package to work you need to specify models path in config
 
         'post_category' => \App\Models\PostCategory::class,
 
-        'tag' => \App\Models\Tag::class,
+        'tag' => \App\Models\PostTag::class,
 
         'user' => \App\Models\User::class,
 
@@ -140,7 +140,8 @@ class MediaFolder extends Model
 
 ## Routes Configuration
 
-Some routes require user model from that initiated request, so by default 'web' and 'auth:web' middlewares are set. You can change
+Some routes require user model from that initiated request, so by default 'web' and 'auth:web' middlewares are set. You
+can change
 this behaviour in package config, but package still require '$request->user()' to be set
 
 ```php

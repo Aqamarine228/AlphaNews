@@ -3,7 +3,7 @@
 namespace Aqamarine\AlphaNews\Tests\Models;
 
 use App\Models\PostCategory;
-use App\Models\Tag;
+use App\Models\PostTag;
 use App\Models\User;
 use Aqamarine\AlphaNews\Tests\Factories\PostFactory;
 use Aqamarine\AlphaNews\Traits\AlphaNewsPostTrait;
@@ -32,7 +32,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon|null $updated_at
  * @property-read User $author
  * @property-read PostCategory|null $category
- * @property-read Collection|Tag[] $tags
+ * @property-read Collection|PostTag[] $tags
  * @property-read int|null $tags_count
  * @method static Builder|Post newModelQuery()
  * @method static Builder|Post newQuery()

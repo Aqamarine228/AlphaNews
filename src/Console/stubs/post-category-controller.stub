@@ -22,7 +22,7 @@ class PostCategoryController extends \$BASE_CONTROLLER$
             ->latest()
             ->paginate();
 
-        return $this->view('post-categories.index', [
+        return $this->view('post-category.index', [
             'categories' => $postCategories,
             'rootCategory' => $postCategory,
         ]);
@@ -32,7 +32,7 @@ class PostCategoryController extends \$BASE_CONTROLLER$
     {
         $categories = PostCategory::pluck('name', 'id');
 
-        return $this->view('post-categories.create', [
+        return $this->view('post-category.create', [
             'categories' => $categories,
         ]);
     }
@@ -51,12 +51,12 @@ class PostCategoryController extends \$BASE_CONTROLLER$
         ]);
         $this->showSuccessMessage('Category successfully created.');
 
-        return redirect()->route('$MODULE_NAME$.post-categories.index');
+        return redirect()->route('$MODULE_NAME$.post-category.index');
     }
 
     public function edit(PostCategory $postCategory): Factory|View|Application
     {
-        return $this->view('post-categories.edit', [
+        return $this->view('post-category.edit', [
             'postCategory' => $postCategory,
             'categories' => PostCategory::pluck('name', 'id'),
         ]);
