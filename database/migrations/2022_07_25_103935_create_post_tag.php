@@ -2,38 +2,20 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Schema;
 
 return new class() extends Migration {
     public function up(): void
     {
-        $post = Config::get('alphanews.models.post');
-        $tag = Config::get('alphanews.models.tag');
-        Schema::create('post_tag', static function (Blueprint $table) use ($post, $tag) {
-            $table->foreignId(Config::get('alphanews.foreign_keys.tag'));
-            $table->foreignId(Config::get('alphanews.foreign_keys.post'));
-            $table->foreign(Config::get('alphanews.foreign_keys.tag'))
-                ->references('id')
-                ->on((new $tag())->getTable())
-                ->onDelete('cascade');
-            $table->foreign(Config::get('alphanews.foreign_keys.post'))
-                ->references('id')
-                ->on((new $post())->getTable())
-                ->onDelete('cascade');
-            $table->unique([
-                Config::get('alphanews.foreign_keys.tag'),
-                Config::get('alphanews.foreign_keys.post'),
-            ]);
+        Schema::create('post_post_tag', static function (Blueprint $table) {
+            $table->foreignId('post_tag_id')->constrained();
+            $table->foreignId('post_id')->constrained();
+            $table->unique(['post_id', 'post_tag_id']);
         });
     }
 
     public function down(): void
     {
-        Schema::table('post_tag', static function (Blueprint $table) {
-            $table->dropForeign('post_tag_' . Config::get('alphanews.foreign_keys.tag') . '_foreign');
-            $table->dropForeign('post_tag_' . Config::get('alphanews.foreign_keys.post') . '_foreign');
-        });
-        Schema::dropIfExists('post_tag');
+        Schema::dropIfExists('post_post_tag');
     }
 };

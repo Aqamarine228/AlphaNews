@@ -1,0 +1,12 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class MediaFolder extends \$BASE_MODEL$
+{
+    use HasFactory;
+
+    protected $fillable = ['name', 'media_folder_id'];
+}

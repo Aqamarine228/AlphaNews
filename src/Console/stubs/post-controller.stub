@@ -1,0 +1,261 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use App\Enums\PostMediaType;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Enum;
+use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Validation\ValidationException;
+use Throwable;
+use $MODELS_NAMESPACE$\Post;
+use $MODELS_NAMESPACE$\PostCategory;
+use $MODELS_NAMESPACE$\PostTag;
+
+class PostController extends \$BASE_CONTROLLER$
+{
+    public function index(Request $request): Factory|View|Application
+    {
+        $posts = Post::where('author_id', $request->user()->id)
+            ->latest()
+            ->paginate(20);
+
+        return $this->view('post.index', [
+            'posts' => $posts
+        ]);
+    }
+
+    public function indexAllPosts(): Factory|View|Application
+    {
+        $posts = Post::latest()->paginate(20);
+
+        return $this->view('post.index', [
+            'posts' => $posts
+        ]);
+    }
+
+    public function edit(Request $request, Post $post): Factory|View|Application
+    {
+        return $this->view('post.edit', [
+            'post' => $post,
+            'tags' => PostTag::select(['id', 'name'])->when(request()->get('q'), function ($query, $search) {$query->where('name', 'like', '%' . $search . '%');})->limit(5)->get(),
+            'categories' => PostCategory::pluck('name', 'id'),
+            'postTags' => $post->tags()->pluck('name'),
+            'postMediaTypes' => collect(PostMediaType::cases())->pluck('name', 'value')
+        ]);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function mainPost(Post $post): RedirectResponse
+    {
+        if (!$post->isPublished()) {
+            $this->showWarningMessage('Can not make this News main because it is not published yet');
+            return back();
+        }
+
+        DB::transaction(function () use ($post) {
+            Post::where('is_trending_now', 1)->update(['is_trending_now' => false]);
+            $post->update(['is_trending_now' => true]);
+        });
+
+        $this->showSuccessMessage($post->short_title . ' is the main post now');
+        return back();
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function updateContent(Post $post): RedirectResponse
+    {
+        $validated = $this->validate(request(), [
+            'title' => 'nullable|string',
+            'content' => 'nullable|string',
+        ]);
+
+        $post->update($validated);
+
+        return back();
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function updatePreview(Post $post): RedirectResponse
+    {
+        $validated = $this->validate(request(), [
+            'short_title' => 'nullable|string|max:255',
+            'short_content' => 'nullable|string|max:255',
+        ]);
+
+        $post->update($validated);
+
+        return back();
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function updateCategory(Post $post): RedirectResponse
+    {
+        $validated = $this->validate(request(), [
+            'post_category_id' => 'required|integer|exists:post_categories,id',
+        ]);
+
+        $post->update($validated);
+
+        return back();
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function updateMediaType(Post $post): RedirectResponse
+    {
+        $validated = $this->validate(request(), [
+            'media_type' => [
+                'required',
+                new Enum(PostMediaType::class)
+            ]
+        ]);
+
+        $post->update($validated);
+
+        return back();
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function updateImage(Post $post): RedirectResponse
+    {
+        $validated = $this->validate(request(), [
+            'picture' => ['required', 'image', 'max:4096'],
+//            'width' => 'required|numeric',
+//            'height' => 'required|numeric',
+//            'x1' => 'required|numeric',
+//            'y1' => 'required|numeric'
+        ]);
+
+        $imageName = $this->cropAndUploadImagesByName(
+            $validated['picture'],
+            $post,
+        );
+
+        if ($post->picture) {
+            Storage::delete(Config::get('alphanews.posts.filesystem.preview_images_path') . '/' . $post->picture);
+        }
+
+        $post->update([
+            'picture' => $imageName
+        ]);
+
+        return back();
+    }
+
+    protected function cropAndUploadImagesByName(UploadedFile $image, Post $post): string
+    {
+        $fileName = $post->id . '_' . time() . '.png';
+
+        $image = Image::make($image)->crop(...array_values(request()->only(['width', 'height', 'x1', 'y1'])));
+
+        $previewImage = clone $image;
+        $previewImage = $previewImage->resize(
+            Config::get('alphanews.posts.preview_images_height'),
+            null,
+            function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            }
+        )
+            ->encode('png');
+        $originalImage = $image->encode('png');
+
+        Storage::put(
+                Config::get('alphanews.posts.filesystem.preview_images_path') . '/' . $fileName,
+                $previewImage->stream()
+        );
+        Storage::put(
+                Config::get('alphanews.posts.filesystem.original_images_path') . '/' . $fileName,
+                $originalImage->stream()
+        );
+
+        return $fileName;
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function updateTags(Post $post): RedirectResponse
+    {
+        $validated = $this->validate(request(), [
+            'tags' => 'nullable|array',
+            'tags.*' => 'required|string|max:255'
+        ]);
+
+        $post->tags()->sync($this->getTagIdsByNames($validated['tags'] ?? []));
+
+        return back();
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $post = $this->getEmptyPost($request->user());
+        if ($post === null) {
+            $post = Post::create([
+                'author_id' => $request->user()->id,
+            ]);
+        }
+
+        return redirect()->route('$MODULE_NAME$.post.edit', $post->id);
+    }
+
+    public function destroy(Post $post): RedirectResponse
+    {
+        $post->delete();
+        $this->showSuccessMessage('Post deleted successfully');
+        return redirect()->route('$MODULE_NAME$.posts.index');
+    }
+
+    private function getEmptyPost(mixed $user): mixed
+    {
+        $emptyPost = Post::where('author_id', $user->id)
+            ->whereNull('post_category_id')
+            ->whereNull('title')
+            ->whereNull('content')
+            ->whereNull('short_title')
+            ->whereNull('short_content')
+            ->whereNull('picture')
+            ->latest()
+            ->first();
+
+        if ($emptyPost !== null && $emptyPost->tags()->count() === 0) {
+            return $emptyPost;
+        }
+
+        return null;
+    }
+
+    private function getTagIdsByNames(array $names): array
+    {
+        $ids = [];
+        foreach ($names as $name) {
+            $tag = PostTag::firstOrCreate([
+                'name' => Str::snake($name),
+            ]);
+            $ids[] = $tag->id;
+        }
+
+        return $ids;
+    }
+}
