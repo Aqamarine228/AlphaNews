@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="create-folder-form" action="{{ route('$MODULE_LOWER$.media-folder') }}" method="post">
+                <form id="create-folder-form" action="{{ route('$MODULE_LOWER$.media-folder.store') }}" method="post">
                     @csrf
                     <div class="form-group">
                         <input type="hidden" name="media_folder_id" value="{{ $rootFolder->id ?? null }}">

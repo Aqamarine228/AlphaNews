@@ -53,7 +53,7 @@
         @if ($rootFolder !== null)
             @component('$MODULE_LOWER$::media-folder._preview', [
                 'title' => 'Back',
-                'link' => route('$MODULE_LOWER$.media-folders.index', ['id' => $rootFolder->media_folder_id]),
+                'link' => route('$MODULE_LOWER$.media-folder.index', ['id' => $rootFolder->media_folder_id]),
             ])
                 <i class="fa fa-level-up-alt fa-3x"></i>
             @endcomponent
@@ -61,7 +61,7 @@
         @foreach($subFolders as $folderItem)
             @component('$MODULE_LOWER$::media-folder._preview', [
                'title' => $folderItem->name,
-               'link' => route('$MODULE_LOWER$.media-folders.index', $folderItem->id),
+               'link' => route('$MODULE_LOWER$.media-folder.index', $folderItem->id),
             ])
                 <i class="fa fa-folder fa-3x"></i>
             @endcomponent

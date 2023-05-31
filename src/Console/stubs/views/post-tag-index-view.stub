@@ -51,3 +51,41 @@
     </div>
 
 @stop
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        //option A
+        $("button[data-ask=1]").click(function (e, params) {
+            var localParams = params || {};
+            if (!localParams.send) {
+                e.preventDefault();
+            }
+            var button = this;
+            let type = $(button).data('type') ? $(this).data('type') : 'warning';
+
+            Swal.fire({
+                title: $(button).data('title'),
+                text: $(button).data('message'),
+                icon: type,
+                input: $(this).data('input') ? $(this).data('input') : false,
+                showCancelButton: true,
+                confirmButtonColor: "#1e88e5",
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                // closeOnConfirm: false,
+                // closeOnCancel: false,
+                showLoaderOnConfirm: true,
+                preConfirm: function (amount) {
+                    if (amount && $(button).data('form-id')) {
+                        let formId = $(button).data('form-id');
+                        let inputName = $(button).data('input-name');
+                        $('#' + formId + ' input[name = ' + inputName + ']').val(amount);
+                    }
+                    $(button).trigger('click', {send: true});
+                },
+                // allowOutsideClick: () => !swal.isLoading()
+            });
+        });
+    });
+</script>
+@endpush
