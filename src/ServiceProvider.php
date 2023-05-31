@@ -3,14 +3,7 @@
 namespace Aqamarine\AlphaNews;
 
 use Aqamarine\AlphaNews\Console\GenerateAllCommand;
-use Aqamarine\AlphaNews\Console\GenerateControllersCommand;
-use Aqamarine\AlphaNews\Console\GenerateEnumsCommand;
-use Aqamarine\AlphaNews\Console\GenerateModelsCommand;
-use Aqamarine\AlphaNews\Console\GenerateRoutesCommand;
-use Aqamarine\AlphaNews\Console\GenerateViewsCommand;
-use Aqamarine\AlphaNews\Console\Views\MediaFolderCreateFolderModalMakeViewCommand;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as ParentProvider;
 
 class ServiceProvider extends ParentProvider
@@ -18,8 +11,6 @@ class ServiceProvider extends ParentProvider
     public function boot(): void
     {
         Paginator::useBootstrap();
-        $this->registerRoutes();
-        $this->registerResources();
         $this->registerCommands();
         $this->registerMigrationsPublishing();
         $this->registerAssetPublishing();
@@ -32,26 +23,6 @@ class ServiceProvider extends ParentProvider
     public function register(): void
     {
         $this->configure();
-    }
-
-    /**
-     * Register the routes used by the AlphaNews admin panel.
-     */
-    protected function registerRoutes(): void
-    {
-        Route::group([
-            'namespace' => 'AlphaNews\Http\Controllers',
-        ], function () {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-        });
-    }
-
-    /**
-     * Register all the possible views used by AlphaNews.
-     */
-    protected function registerResources(): void
-    {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'alphanews');
     }
 
     /**
@@ -82,7 +53,7 @@ class ServiceProvider extends ParentProvider
     protected function registerAssetPublishing(): void
     {
         $this->publishes([
-            __DIR__ . '/../public' => public_path('vendor/alphanews'),
+            __DIR__ . '/../public' => public_path(),
         ], 'alphanews-assets');
     }
 
