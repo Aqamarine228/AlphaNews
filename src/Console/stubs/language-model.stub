@@ -1,0 +1,7 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+class Language extends \$BASE_MODEL$
+{
+}

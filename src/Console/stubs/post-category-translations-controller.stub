@@ -19,6 +19,9 @@ class PostCategoryController extends \$BASE_CONTROLLER$
         )
             ->withCount('childCategories')
             ->withCount(['posts'])
+            ->with(['translations' => static function ($query) {
+                $query->select('code');
+            }])
             ->latest()
             ->paginate();
 
@@ -30,7 +33,7 @@ class PostCategoryController extends \$BASE_CONTROLLER$
 
     public function create(): Factory|View|Application
     {
-        $categories = PostCategory::pluck('name', 'id');
+        $categories = PostCategory::with('translations')->get();
 
         return $this->view('post-category.create', [
             'categories' => $categories,
@@ -40,12 +43,10 @@ class PostCategoryController extends \$BASE_CONTROLLER$
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-                'color' => 'required|string|max:255',
-                'post_category_id' => 'nullable|exists:post_categories,id',
-                'name' =>  ['required', 'string', 'max:255', 'unique:post_categories']
+            'color' => 'required|string|max:255',
+            'post_category_id' => 'nullable|exists:post_categories,id',
         ]);
-        PostCategory::create([
-            'name' => $validated['name'],
+        $postCategory = PostCategory::create([
             'color' => $validated['color'],
             'post_category_id' => $validated['post_category_id'] ?? null
         ]);
@@ -56,21 +57,43 @@ class PostCategoryController extends \$BASE_CONTROLLER$
 
     public function edit(PostCategory $postCategory): Factory|View|Application
     {
+        $languageCode = $request->get('language_code', config('alphanews.default_language'));
+        $languages = Language::all();
+        $language = Language::find($languageCode);
+
+        $postCategory->load(['translations' => static function ($query) use ($languageCode) {
+            $query->where('code', $languageCode);
+        }]);
+
         return $this->view('post-category.edit', [
             'postCategory' => $postCategory,
             'categories' => PostCategory::pluck('name', 'id'),
+            'languages' => $languages,
+            'language' => $language,
         ]);
     }
 
     public function update(Request $request, PostCategory $postCategory): RedirectResponse
     {
         $validated = $request->validate([
-                'color' => 'string|max:255',
-                'name' => 'string|max:255',
+            'color' => 'string|max:255',
         ]);
         $postCategory->update($validated);
         $this->showSuccessMessage('Category successfully updated.');
 
+        return back();
+    }
+
+    public function updateTranslatedFields(Request $request, PostCategory $postCategory): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'language_code' => 'required|exists:languages,code'
+        ]);
+        $postCategory
+            ->translations()
+            ->syncWithoutDetaching([$validated['language_code'] => $validated['name']]);
+        $this->showSuccessMessage(Post category updated successfully.');
         return back();
     }
 

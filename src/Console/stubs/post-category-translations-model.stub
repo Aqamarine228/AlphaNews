@@ -1,0 +1,41 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class PostCategory extends \$BASE_MODEL$
+{
+    use HasFactory;
+
+    protected $fillable = ['color', 'posts_amount', 'post_category_id'];
+
+    /**
+    * Relations
+    */
+
+    public function translations(): BelongsToMany
+    {
+        return $this->belongsToMany(Language::class, 'post_category_language', 'post_category_id', 'language_code')
+                ->withPivot(['name']);
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(
+            Post::class,
+            'post_category_id',
+            'id'
+        );
+    }
+
+    public function childCategories(): HasMany
+    {
+        return $this->hasMany(
+            self::class,
+            'post_category_id',
+            'id'
+        );
+    }
+}

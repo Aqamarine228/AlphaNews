@@ -7,16 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('media_folders', static function (Blueprint $table) {
+        Schema::create('images', static function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('media_folder_id')->nullable()->constrained();
+            $table->foreignId('media_folder_id')->constrained();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('media_folders');
+        Schema::dropIfExists('images');
     }
 };

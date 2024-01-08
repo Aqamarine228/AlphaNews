@@ -3,6 +3,8 @@
 namespace Aqamarine\AlphaNews;
 
 use Aqamarine\AlphaNews\Console\GenerateAllCommand;
+use Aqamarine\AlphaNews\Console\Models\LanguageModelMakeCommand;
+use Aqamarine\AlphaNews\Console\Models\PostTagModelMakeCommand;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider as ParentProvider;
 
@@ -32,6 +34,8 @@ class ServiceProvider extends ParentProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
+                LanguageModelMakeCommand::class,
+                PostTagModelMakeCommand::class,
                 GenerateAllCommand::class,
             ]);
         }
