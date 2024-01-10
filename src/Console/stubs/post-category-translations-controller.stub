@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use $MODELS_NAMESPACE$\PostCategory;
+use $MODELS_NAMESPACE$\Language;
 
 class PostCategoryController extends \$BASE_CONTROLLER$
 {
@@ -55,11 +56,11 @@ class PostCategoryController extends \$BASE_CONTROLLER$
         return redirect()->route('$MODULE_NAME$.post-category.edit', $postCategory->id);
     }
 
-    public function edit(PostCategory $postCategory): Factory|View|Application
+    public function edit(Request $request, PostCategory $postCategory): Factory|View|Application
     {
         $languageCode = $request->get('language_code', config('alphanews.default_language'));
         $languages = Language::all();
-        $language = Language::find($languageCode);
+        $language = Language::where('code', $languageCode)->first();
 
         $postCategory->load(['translations' => static function ($query) use ($languageCode) {
             $query->where('code', $languageCode);
@@ -67,7 +68,10 @@ class PostCategoryController extends \$BASE_CONTROLLER$
 
         return $this->view('post-category.edit', [
             'postCategory' => $postCategory,
-            'categories' => PostCategory::pluck('name', 'id'),
+            'categories' => PostCategory::whereNotIn('id', [$postCategory->id])
+                ->with(['translations' => static function ($query) use ($languageCode) {
+                    $query->where('code', $languageCode);
+                }])->get(),
             'languages' => $languages,
             'language' => $language,
         ]);
@@ -93,7 +97,7 @@ class PostCategoryController extends \$BASE_CONTROLLER$
         $postCategory
             ->translations()
             ->syncWithoutDetaching([$validated['language_code'] => $validated['name']]);
-        $this->showSuccessMessage(Post category updated successfully.');
+        $this->showSuccessMessage('Post category updated successfully.');
         return back();
     }
 

@@ -2,6 +2,8 @@
 
 namespace Aqamarine\AlphaNews\Console\Controllers;
 
+use Symfony\Component\Console\Input\InputOption;
+
 class PostTagControllerMakeCommand extends \Aqamarine\AlphaNews\Support\ControllerGeneratorCommand
 {
     protected $name = 'alphanews:make-post-tag-controller';
@@ -17,4 +19,5 @@ class PostTagControllerMakeCommand extends \Aqamarine\AlphaNews\Support\Controll
     {
         return '/post-tag-controller.stub';
     }
+
 }

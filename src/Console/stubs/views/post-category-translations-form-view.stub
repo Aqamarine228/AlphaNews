@@ -1,0 +1,41 @@
+<form
+    action="{{ $model->exists ? route('$MODULE_LOWER$.post-category.update', $model->id) : route('$MODULE_LOWER$.post-category.store') }}"
+    method="POST">
+
+    @csrf
+    @if ($model->exists)
+        @method('PUT')
+    @endif
+
+    @include('components.input_group', [
+        'type' => 'color',
+        'required' => true,
+        'label' => 'Color',
+        'name' => 'color',
+        'placeholder' => '#dsfsadf',
+        'defaultValue' => $model->color
+    ])
+
+    <div class="form-group">
+        <label for="post_category_id">
+            Parent
+            <code>*</code>
+        </label>
+
+        <select name="post_category_id" id="post_category_id" class="form-control  ">
+            <option value="" selected="">
+                None
+            </option>
+            @foreach($categories as $category)
+                <option value="{{$category->id}}" selected="{{$model->post_category_id === $category->id}}">
+                    {{$category->translations->first()?->pivot->name}}
+                </option>
+            @endforeach
+        </select>
+    </div>
+
+    <button class="btn btn-primary">
+        <em class="fa fa-save"></em>
+        Save
+    </button>
+</form>

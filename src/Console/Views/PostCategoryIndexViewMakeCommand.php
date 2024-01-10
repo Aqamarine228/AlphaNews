@@ -15,6 +15,8 @@ class PostCategoryIndexViewMakeCommand extends \Aqamarine\AlphaNews\Support\View
 
     protected function getStubName(): string
     {
-        return '/views/post-category-index-view.stub';
+        return $this->option('translations')
+            ? '/views/post-category-translations-index-view.stub'
+            : '/views/post-category-index-view.stub';
     }
 }

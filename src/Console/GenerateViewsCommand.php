@@ -12,6 +12,7 @@ use Aqamarine\AlphaNews\Console\Views\PostCategoryCreateViewMakeCommand;
 use Aqamarine\AlphaNews\Console\Views\PostCategoryEditViewMakeCommand;
 use Aqamarine\AlphaNews\Console\Views\PostCategoryFormViewMakeCommand;
 use Aqamarine\AlphaNews\Console\Views\PostCategoryIndexViewMakeCommand;
+use Aqamarine\AlphaNews\Console\Views\PostCategoryTranslationsFormViewMakeCommand;
 use Aqamarine\AlphaNews\Console\Views\PostCategoryViewMakeCommand;
 use Aqamarine\AlphaNews\Console\Views\PostContentFormViewMakeCommand;
 use Aqamarine\AlphaNews\Console\Views\PostCropImageModalMakeCommand;
@@ -28,6 +29,7 @@ use Aqamarine\AlphaNews\Console\Views\PostTagIndexMakeViewCommand;
 use Aqamarine\AlphaNews\Console\Views\PostTagsViewMakeCommand;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class GenerateViewsCommand extends Command
 {
@@ -73,9 +75,23 @@ class GenerateViewsCommand extends Command
     private function generatePostCategoryViews(string $module): void
     {
         $this->call(PostCategoryCreateViewMakeCommand::class, ['module' => $module]);
-        $this->call(PostCategoryEditViewMakeCommand::class, ['module' => $module]);
-        $this->call(PostCategoryFormViewMakeCommand::class, ['module' => $module]);
-        $this->call(PostCategoryIndexViewMakeCommand::class, ['module' => $module]);
+
+        $this->call(
+            PostCategoryEditViewMakeCommand::class,
+            ['module' => $module, '--translations' => $this->option('translations')]
+        );
+        $this->call(
+            PostCategoryFormViewMakeCommand::class,
+            ['module' => $module, '--translations' => $this->option('translations')]
+        );
+        $this->call(
+            PostCategoryIndexViewMakeCommand::class,
+            ['module' => $module, '--translations' => $this->option('translations')]
+        );
+
+        if ($this->option('translations')) {
+            $this->call(PostCategoryTranslationsFormViewMakeCommand::class, ['module' => $module]);
+        }
     }
 
     private function generatePostTagViews(string $module): void
@@ -89,6 +105,13 @@ class GenerateViewsCommand extends Command
     {
         return [
             ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+        ];
+    }
+
+    public function getOptions(): array
+    {
+        return [
+            ['translations', 't', InputOption::VALUE_NONE, 'Generates translation files']
         ];
     }
 }

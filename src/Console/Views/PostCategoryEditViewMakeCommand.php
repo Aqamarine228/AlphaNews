@@ -15,6 +15,8 @@ class PostCategoryEditViewMakeCommand extends \Aqamarine\AlphaNews\Support\ViewG
 
     protected function getStubName(): string
     {
-        return '/views/post-category-edit-view.stub';
+        return $this->option('translations')
+            ? '/views/post-category-translations-edit-view.stub'
+            : '/views/post-category-edit-view.stub';
     }
 }

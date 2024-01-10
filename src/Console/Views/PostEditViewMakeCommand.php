@@ -15,6 +15,6 @@ class PostEditViewMakeCommand extends \Aqamarine\AlphaNews\Support\ViewGenerator
 
     protected function getStubName(): string
     {
-        return '/views/post-edit-view.stub';
+        return $this->option('translations') ? '/views/post-translations-edit-view.stub' : '/views/post-edit-view.stub';
     }
 }

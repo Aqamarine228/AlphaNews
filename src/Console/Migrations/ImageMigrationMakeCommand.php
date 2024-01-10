@@ -15,6 +15,6 @@ class ImageMigrationMakeCommand extends \Aqamarine\AlphaNews\Support\MigrationGe
 
     protected function getStubName(): string
     {
-        return "/images-migration.stub";
+        return "/image-migration.stub";
     }
 }

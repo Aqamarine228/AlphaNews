@@ -18,6 +18,8 @@ class PostCategoryControllerMakeCommand extends ControllerGeneratorCommand
 
     protected function getStubName(): string
     {
-        return '/post-category-controller.stub';
+        return $this->option('translations')
+            ? '/post-category-translations-controller.stub'
+            : '/post-category-controller.stub';
     }
 }

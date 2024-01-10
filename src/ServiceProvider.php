@@ -3,6 +3,12 @@
 namespace Aqamarine\AlphaNews;
 
 use Aqamarine\AlphaNews\Console\GenerateAllCommand;
+use Aqamarine\AlphaNews\Console\GenerateControllersCommand;
+use Aqamarine\AlphaNews\Console\GenerateEnumsCommand;
+use Aqamarine\AlphaNews\Console\GenerateMigrationsCommand;
+use Aqamarine\AlphaNews\Console\GenerateModelsCommand;
+use Aqamarine\AlphaNews\Console\GenerateRoutesCommand;
+use Aqamarine\AlphaNews\Console\GenerateViewsCommand;
 use Aqamarine\AlphaNews\Console\Models\LanguageModelMakeCommand;
 use Aqamarine\AlphaNews\Console\Models\PostTagModelMakeCommand;
 use Illuminate\Pagination\Paginator;
@@ -37,6 +43,12 @@ class ServiceProvider extends ParentProvider
                 LanguageModelMakeCommand::class,
                 PostTagModelMakeCommand::class,
                 GenerateAllCommand::class,
+                GenerateControllersCommand::class,
+                GenerateModelsCommand::class,
+                GenerateRoutesCommand::class,
+                GenerateEnumsCommand::class,
+                GenerateMigrationsCommand::class,
+                GenerateViewsCommand::class,
             ]);
         }
     }
