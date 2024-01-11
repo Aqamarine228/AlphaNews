@@ -1,0 +1,90 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use $MODELS_NAMESPACE$\PostCategory;
+
+class PostCategoryController extends \$BASE_CONTROLLER$
+{
+    public function index(?PostCategory $postCategory): View|Factory|Application
+    {
+        $postCategories = PostCategory::where(
+            'post_category_id',
+            $postCategory?->id
+        )
+            ->withCount('childCategories')
+            ->withCount(['posts'])
+            ->latest()
+            ->paginate();
+
+        return $this->view('post-category.index', [
+            'categories' => $postCategories,
+            'rootCategory' => $postCategory,
+        ]);
+    }
+
+    public function create(): Factory|View|Application
+    {
+        $categories = PostCategory::pluck('name', 'id');
+
+        return $this->view('post-category.create', [
+            'categories' => $categories,
+        ]);
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+                'color' => 'required|string|max:255',
+                'post_category_id' => 'nullable|exists:post_categories,id',
+                'name' =>  ['required', 'string', 'max:255', 'unique:post_categories']
+        ]);
+        PostCategory::create([
+            'name' => $validated['name'],
+            'color' => $validated['color'],
+            'post_category_id' => $validated['post_category_id'] ?? null
+        ]);
+        $this->showSuccessMessage('Category successfully created.');
+
+        return redirect()->route('$MODULE_NAME$.post-category.edit', $postCategory->id);
+    }
+
+    public function edit(PostCategory $postCategory): Factory|View|Application
+    {
+        return $this->view('post-category.edit', [
+            'postCategory' => $postCategory,
+            'categories' => PostCategory::pluck('name', 'id'),
+        ]);
+    }
+
+    public function update(Request $request, PostCategory $postCategory): RedirectResponse
+    {
+        $validated = $request->validate([
+                'color' => 'string|max:255',
+                'name' => 'string|max:255',
+        ]);
+        $postCategory->update($validated);
+        $this->showSuccessMessage('Category successfully updated.');
+
+        return back();
+    }
+
+    public function destroy(PostCategory $postCategory): RedirectResponse
+    {
+        if ($postCategory->posts()->exists()) {
+            $this->showWarningMessage('Can not delete category with posts');
+        } elseif ($postCategory->childCategories()->exists()) {
+            $this->showWarningMessage('Can not delete parent category');
+        } else {
+            $postCategory->delete();
+            $this->showSuccessMessage('Category successfully deleted');
+        }
+
+        return back();
+    }
+}

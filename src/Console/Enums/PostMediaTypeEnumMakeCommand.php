@@ -1,0 +1,27 @@
+<?php
+
+namespace Aqamarine\AlphaNews\Console\Enums;
+
+use Aqamarine\AlphaNews\Support\Stub;
+
+class PostMediaTypeEnumMakeCommand extends \Nwidart\Modules\Commands\GeneratorCommand
+{
+    protected $name = 'alphanews:make-post-media-type-enum';
+
+    protected $description = 'Creates Post Media Type Enum';
+
+    protected function getTemplateContents(): bool|array|string
+    {
+        return (new Stub($this->getStubName()))->render();
+    }
+
+    protected function getDestinationFilePath(): string
+    {
+        return base_path() . '/app/Enums/PostMediaType.php';
+    }
+
+    private function getStubName(): string
+    {
+        return '/post-media-type-enum.stub';
+    }
+}

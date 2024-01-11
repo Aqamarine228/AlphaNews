@@ -1,0 +1,91 @@
+@extends('$MODULE_LOWER$::layouts.master.master')
+
+@section('title')
+    Tag
+    <a href="{{ route('$MODULE_LOWER$.post-tag.create', ['tag_id' => request()->segment(3)]) }}" class="btn btn-sm btn-primary">Create</a>
+@stop
+
+@section('breadcrumb')
+    <li class="breadcrumb-item active">Tags</li>
+@stop
+
+@section('content')
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-bordered mb-4">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Posts</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($tags as $tag)
+                            <tr>
+                                <td>{{ $tag->name }}</td>
+                                <td>{{ $tag->posts_amount }}</td>
+                                <td>
+                                    <button form="delete-tag-{{ $tag->id }}" class="btn btn-sm btn-danger"
+                                            data-ask="1" data-title="Delete tag"
+                                            data-message="Are you sure you want to delete the tag - '{{ $tag->name }}'?"
+                                            data-type="danger"><i class="fas fa-trash"></i> Delete
+                                    </button>
+
+                                    <form id="delete-tag-{{ $tag->id }}" action="{{ route('$MODULE_LOWER$.post-tag.destroy', $tag->id) }}"
+                                          method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                    {{ $tags->links() }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+@stop
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        //option A
+        $("button[data-ask=1]").click(function (e, params) {
+            var localParams = params || {};
+            if (!localParams.send) {
+                e.preventDefault();
+            }
+            var button = this;
+            let type = $(button).data('type') ? $(this).data('type') : 'warning';
+
+            Swal.fire({
+                title: $(button).data('title'),
+                text: $(button).data('message'),
+                icon: type,
+                input: $(this).data('input') ? $(this).data('input') : false,
+                showCancelButton: true,
+                confirmButtonColor: "#1e88e5",
+                confirmButtonText: 'Confirm',
+                cancelButtonText: 'Cancel',
+                // closeOnConfirm: false,
+                // closeOnCancel: false,
+                showLoaderOnConfirm: true,
+                preConfirm: function (amount) {
+                    if (amount && $(button).data('form-id')) {
+                        let formId = $(button).data('form-id');
+                        let inputName = $(button).data('input-name');
+                        $('#' + formId + ' input[name = ' + inputName + ']').val(amount);
+                    }
+                    $(button).trigger('click', {send: true});
+                },
+                // allowOutsideClick: () => !swal.isLoading()
+            });
+        });
+    });
+</script>
+@endpush

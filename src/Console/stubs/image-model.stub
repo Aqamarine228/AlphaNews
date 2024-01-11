@@ -1,0 +1,22 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
+
+class Image extends \$BASE_MODEL$
+{
+    use HasFactory;
+
+    protected $fillable = ['media_folder_id', 'name'];
+
+    /**
+    * Methods
+    */
+
+    public function getFullUrl(): string
+    {
+        return Storage::url(config('alphanews.media.filesystem.images_path') . '/' . $this->name);
+    }
+}

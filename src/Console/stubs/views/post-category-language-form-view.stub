@@ -1,0 +1,34 @@
+<form
+    action="{{ $model->exists ? route('$MODULE_LOWER$.post-category.update-translated', $model->id) : route('$MODULE_LOWER$.post-category.store') }}"
+    method="POST">
+
+    @csrf
+    @method('PUT')
+
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+        {{ $language->name }}
+    </button>
+    <div class="dropdown-menu">
+    @foreach($languages as $lang)
+        <a class="dropdown-item" href="{{ route('$MODULE_LOWER$.post-category.edit', $model->id). '?language_code=' . $lang->code}}">
+            {{ $lang->name }}
+        </a>
+    @endforeach
+    </div>
+
+    <input type="hidden" name="language_code" value="{{ $language->code }}">
+
+    @include('components.input_group', [
+        'type' => 'text',
+        'required' => true,
+        'label' => 'Name',
+        'name' => 'name',
+        'placeholder' => 'Category',
+        'defaultValue' => $model->translations->first()?->pivot->name
+    ])
+
+    <button class="btn btn-primary">
+        <em class="fa fa-save"></em>
+        Save
+    </button>
+</form>

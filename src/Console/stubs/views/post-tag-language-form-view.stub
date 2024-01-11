@@ -1,0 +1,35 @@
+<form
+    action="{{ route('$MODULE_LOWER$.post-tag.update-translated', $model->id)}}"
+    method="POST">
+
+    @csrf
+    @method('PUT')
+
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+        {{ $language->name }}
+    </button>
+    <div class="dropdown-menu">
+        @foreach($languages as $lang)
+            <a class="dropdown-item"
+               href="{{ route('$MODULE_LOWER$.post-tag.edit', $model->id). '?language_code=' . $lang->code}}">
+                {{ $lang->name }}
+            </a>
+        @endforeach
+    </div>
+
+    <input type="hidden" name="language_code" value="{{ $language->code }}">
+
+    @include('components.input_group', [
+        'type' => 'text',
+        'required' => true,
+        'label' => 'Name',
+        'name' => 'name',
+        'placeholder' => 'Tag',
+        'defaultValue' => $model->translations->first()?->pivot->name
+    ])
+
+    <button class="btn btn-primary" type="submit">
+        <em class="fa fa-save"></em>
+        Save
+    </button>
+</form>
