@@ -20,7 +20,6 @@ class ServiceProvider extends ParentProvider
     {
         Paginator::useBootstrap();
         $this->registerCommands();
-        $this->registerMigrationsPublishing();
         $this->registerAssetPublishing();
         $this->registerConfigPublishing();
     }
@@ -40,15 +39,7 @@ class ServiceProvider extends ParentProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                LanguageModelMakeCommand::class,
-                PostTagModelMakeCommand::class,
                 GenerateAllCommand::class,
-                GenerateControllersCommand::class,
-                GenerateModelsCommand::class,
-                GenerateRoutesCommand::class,
-                GenerateEnumsCommand::class,
-                GenerateMigrationsCommand::class,
-                GenerateViewsCommand::class,
             ]);
         }
     }
@@ -71,18 +62,6 @@ class ServiceProvider extends ParentProvider
         $this->publishes([
             __DIR__ . '/../public' => public_path(),
         ], 'alphanews-assets');
-    }
-
-    /**
-     * Register the AlphaNews migrations publishing.
-     */
-    protected function registerMigrationsPublishing(): void
-    {
-        if (config('alphanews.register_migrations', true)) {
-            $this->publishes([
-                __DIR__ . '/../database/migrations' => database_path('migrations'),
-            ], 'alphanews-migrations');
-        }
     }
 
     /**

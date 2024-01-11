@@ -81,6 +81,7 @@ class PostCategoryController extends \$BASE_CONTROLLER$
     {
         $validated = $request->validate([
             'color' => 'string|max:255',
+            'post_category_id' => 'nullable|exists:post_categories,id'
         ]);
         $postCategory->update($validated);
         $this->showSuccessMessage('Category successfully updated.');
@@ -96,7 +97,7 @@ class PostCategoryController extends \$BASE_CONTROLLER$
         ]);
         $postCategory
             ->translations()
-            ->syncWithoutDetaching([$validated['language_code'] => $validated['name']]);
+            ->syncWithoutDetaching([$validated['language_code'] => ['name' => $validated['name']]]);
         $this->showSuccessMessage('Post category updated successfully.');
         return back();
     }

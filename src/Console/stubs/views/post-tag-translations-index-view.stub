@@ -35,7 +35,7 @@
 
                                     <button form="delete-tag-{{ $tag->id }}" class="btn btn-sm btn-danger"
                                             data-ask="1" data-title="Delete tag"
-                                            data-message="Are you sure you want to delete the tag - '{{ $tag->$tag->translations->first()?->pivot->name }}'?"
+                                            data-message="Are you sure you want to delete the tag - '{{ $tag->translations->first()?->pivot->name }}'?"
                                             data-type="danger"><i class="fas fa-trash"></i> Delete
                                     </button>
 

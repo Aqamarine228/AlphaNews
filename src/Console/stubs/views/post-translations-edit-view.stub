@@ -91,7 +91,7 @@
 
                     xhr = new XMLHttpRequest();
                     xhr.withCredentials = false;
-                    xhr.open('POST', '{{ route('admin.media-folder.image.store-from-tinymce') }}');
+                    xhr.open('POST', '{{ route('$MODULE_LOWER$.media-folder.image.store-from-tinymce') }}');
 
                     xhr.onload = function () {
                         if (xhr.status < 200 || xhr.status >= 300) {
@@ -116,7 +116,7 @@
                     xhr.send(formData);
                 },
                 plugins: plugins,
-                images_upload_url: '{{ route('admin.media-folder.image.store-from-tinymce') }}',
+                images_upload_url: '{{ route('$MODULE_LOWER$.media-folder.image.store-from-tinymce') }}',
                 images_upload_base_path: '{{ config('images.media.url') }}',
                 images_upload_credentials: true,
                 autosave_ask_before_unload: true,

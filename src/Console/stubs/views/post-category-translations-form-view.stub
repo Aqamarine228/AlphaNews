@@ -22,12 +22,12 @@
             <code>*</code>
         </label>
 
-        <select name="post_category_id" id="post_category_id" class="form-control  ">
-            <option value="" selected="">
+    <select name="post_category_id" id="post_category_id" class="form-control  ">
+            <option value="" {{$model->post_category_id ?? 'selected'}}>
                 None
             </option>
             @foreach($categories as $category)
-                <option value="{{$category->id}}" selected="{{$model->post_category_id === $category->id}}">
+                <option value="{{$category->id}}" {{$model->post_category_id === $category->id ? 'selected' : ''}}>
                     {{$category->translations->first()?->pivot->name}}
                 </option>
             @endforeach

@@ -4,6 +4,7 @@ namespace $CLASS_NAMESPACE$;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class PostCategory extends \$BASE_MODEL$
 {

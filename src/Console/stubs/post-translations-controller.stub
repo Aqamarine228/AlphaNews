@@ -268,14 +268,14 @@ class PostController extends \$BASE_CONTROLLER$
             ]);
         }
 
-        return redirect()->route('admin.post.edit', $post->id);
+        return redirect()->route('$MODULE_NAME$.post.edit', $post->id);
     }
 
     public function destroy(Post $post): RedirectResponse
     {
         $post->delete();
         $this->showSuccessMessage('Post deleted successfully');
-        return redirect()->route('admin.posts.index');
+        return redirect()->route('$MODULE_NAME$.post.index');
     }
 
     private function getEmptyPost(mixed $user): mixed

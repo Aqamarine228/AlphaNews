@@ -29,7 +29,7 @@ class PostTagController extends \$BASE_CONTROLLER$
             $tag = PostTag::create([]);
             $this->showSuccessMessage('Tag successfully created.');
 
-            return redirect()->route('admin.post-tag.edit', $tag->id);
+            return redirect()->route('$MODULE_NAME$.post-tag.edit', $tag->id);
         }
 
         public function edit(Request $request, PostTag $postTag): Factory|View|Application

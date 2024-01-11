@@ -10,7 +10,7 @@
     <li class="breadcrumb-item"><a href="{{ route('$MODULE_LOWER$.post-category.index') }}">Root Categories</a></li>
     @if ($rootCategory->id)
         <li class="breadcrumb-item"><a
-                href="{{ route('admin.post-category.index', $rootCategory->post_category_id) }}">
+                href="{{ route('$MODULE_LOWER$.post-category.index', $rootCategory->post_category_id) }}">
                 {{ $rootCategory->translations->first()?->pivot->name }}
             </a>
         </li>
@@ -34,8 +34,7 @@
                             <th>Preview</th>
                             <th>News count</th>
                             <th>Nested categories</th>
-                            <th></th>
-                            <th></th>
+                            <th width="160px"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -47,7 +46,7 @@
                                 <td>{{ $category->color }}</td>
                                 <td>
                                     <span class="badge badge-default"
-                                          style="background: {{ $category->color }}; color: white">{{ $category->name }}</span>
+                                          style="background: {{ $category->color }}; color: white">{{ $category->translations->first()?->pivot->name }}</span>
                                 </td>
                                 <td>
                                     {{ $category->posts_count }}
