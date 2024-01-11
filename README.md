@@ -24,12 +24,6 @@ $ composer require aqamarine/alphanews
 
 For package to work publishing assets and migrations is needed
 
-### Publish Migrations
-
-```bash
-php artisan vendor:publish --tag="alphanews-migrations"
-```
-
 ### Publish Config (Optional)
 
 ```bash
