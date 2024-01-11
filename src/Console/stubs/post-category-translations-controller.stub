@@ -21,7 +21,7 @@ class PostCategoryController extends \$BASE_CONTROLLER$
             ->withCount('childCategories')
             ->withCount(['posts'])
             ->with(['translations' => static function ($query) {
-                $query->select('code');
+                $query->where('code', config('alphanews.default_language'));
             }])
             ->latest()
             ->paginate();

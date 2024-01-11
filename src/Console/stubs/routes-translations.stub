@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web', 'auth:web'])
     ->group(function () {
-        Route::resource('post-tag', PostTagController::class)->except('show', 'edit', 'update');
+        Route::resource('post-tag', PostTagController::class)->except('show', 'update');
+        Route::put('/post-tag/{postTag}/update-translated', [PostTagController::class, 'updateTranslatedFields'])
+            ->name('post-tag.update-translated');
 
         Route::resource('post-category', PostCategoryController::class)->except('show', 'index');
         Route::get('/post-category/{postCategory?}', [PostCategoryController::class, 'index'])

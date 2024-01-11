@@ -1,0 +1,29 @@
+@extends('$MODULE_LOWER$::layouts.master.master')
+
+@section('title')
+    Edit - {{ $postTag->translations->first()?->pivot->name }}
+@stop
+
+@section('breadcrumb')
+    <li class="breadcrumb-item"><a href="{{ route('$MODULE_LOWER$.post-tag.index') }}">Post Tag</a></li>
+    <li class="breadcrumb-item active">Edit</li>
+@stop
+
+@section('content')
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Edit Translations</h3>
+                </div>
+                <div class="card-body">
+                    @include('$MODULE_LOWER$::post-tag._translations-form', [
+                        'model' => $postTag
+                    ])
+                </div>
+            </div>
+        </div>
+    </div>
+
+@stop

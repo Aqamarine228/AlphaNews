@@ -65,7 +65,7 @@
                                     @if ($category->posts_count === 0)
                                         <button form="delete-category-{{ $category->id }}" class="btn btn-sm btn-danger"
                                                 data-ask="1" data-title="Delete category"
-                                                data-message="Are you sure you want to delete the category - '{{ $category->name }}'?"
+                                                data-message="Are you sure you want to delete the category - '{{ $category->translations->first()?->pivot->name }}'?"
                                                 data-type="danger"><i class="fas fa-trash"></i> Delete
                                         </button>
                                         <form id="delete-category-{{ $category->id }}"

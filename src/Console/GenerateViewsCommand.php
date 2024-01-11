@@ -27,6 +27,8 @@ use Aqamarine\AlphaNews\Console\Views\PostTagCreateViewMakeCommand;
 use Aqamarine\AlphaNews\Console\Views\PostTagFormViewMakeCommand;
 use Aqamarine\AlphaNews\Console\Views\PostTagIndexMakeViewCommand;
 use Aqamarine\AlphaNews\Console\Views\PostTagsViewMakeCommand;
+use Aqamarine\AlphaNews\Console\Views\PostTagTranslationsEditViewMakeCommand;
+use Aqamarine\AlphaNews\Console\Views\PostTagTranslationsFormViewMakeCommand;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -96,9 +98,19 @@ class GenerateViewsCommand extends Command
 
     private function generatePostTagViews(string $module): void
     {
+        $this->call(
+            PostTagIndexMakeViewCommand::class,
+            ['module' => $module, '--translations' => $this->option('translations')]
+        );
+
+        if ($this->option('translations')) {
+            $this->call(PostTagTranslationsEditViewMakeCommand::class, ['module' => $module]);
+            $this->call(PostTagTranslationsFormViewMakeCommand::class, ['module' => $module]);
+            return;
+        }
+
         $this->call(PostTagCreateViewMakeCommand::class, ['module' => $module]);
         $this->call(PostTagFormViewMakeCommand::class, ['module' => $module]);
-        $this->call(PostTagIndexMakeViewCommand::class, ['module' => $module]);
     }
 
     protected function getArguments(): array

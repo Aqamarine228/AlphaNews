@@ -17,7 +17,9 @@ class PostTagControllerMakeCommand extends \Aqamarine\AlphaNews\Support\Controll
 
     protected function getStubName(): string
     {
-        return '/post-tag-controller.stub';
+        return $this->option('translations')
+            ? '/post-tag-translations-controller.stub'
+            : '/post-tag-controller.stub';
     }
 
 }
