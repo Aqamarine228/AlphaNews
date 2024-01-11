@@ -1,0 +1,79 @@
+<?php
+
+namespace $CLASS_NAMESPACE$;
+
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use $MODELS_NAMESPACE$\PostTag;
+use $MODELS_NAMESPACE$\Language;
+
+class PostTagController extends \$BASE_CONTROLLER$
+{
+    public function index(): Factory|View|Application
+        {
+            $tags = PostTag::orderBy('posts_amount', 'desc')
+                ->with(['translations' => fn($q) => $q->where('code', config('alphanews.default_language'))])
+                ->paginate(20);
+
+            return $this->view('post-tag.index', [
+                'tags' => $tags,
+            ]);
+        }
+
+        public function create(): RedirectResponse
+        {
+            $tag = PostTag::create([]);
+            $this->showSuccessMessage('Tag successfully created.');
+
+            return redirect()->route('$MODULE_NAME$.post-tag.edit', $tag->id);
+        }
+
+        public function edit(Request $request, PostTag $postTag): Factory|View|Application
+        {
+            $languageCode = $request->get('language_code', config('alphanews.default_language'));
+            $languages = Language::all();
+            $language = Language::where('code', $languageCode)->first();
+
+            $postTag->load(['translations' => static function ($query) use ($languageCode) {
+                $query->where('code', $languageCode);
+            }]);
+
+            return $this->view('post-tag.edit', [
+                'postTag' => $postTag,
+                'languages' => $languages,
+                'language' => $language,
+            ]);
+        }
+
+        public function updateTranslatedFields(Request $request, PostTag $postTag): RedirectResponse
+        {
+            $validated = $request->validate([
+                'name' => 'required|string|max:255',
+                'language_code' => 'required|exists:languages,code'
+            ]);
+
+            $postTag
+                ->translations()
+                ->syncWithoutDetaching([$validated['language_code'] => ['name' => $validated['name']]]);
+
+            $this->showSuccessMessage('Tag successfully updated.');
+
+            return back();
+        }
+
+        public function destroy(PostTag $postTag): RedirectResponse
+        {
+            if (!$postTag->posts()->exists()) {
+                $postTag->delete();
+                $this->showSuccessMessage('Tag successfully deleted');
+            } else {
+                $this->showWarningMessage('Can not delete tag with posts');
+            }
+
+            return back();
+        }
+}

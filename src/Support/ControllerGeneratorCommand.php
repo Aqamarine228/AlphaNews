@@ -91,6 +91,7 @@ abstract class ControllerGeneratorCommand extends GeneratorCommand
     {
         return [
             ['force', 'f', InputOption::VALUE_NONE, 'Create the class even if the controller already exists'],
+            ['translations', 't', InputOption::VALUE_NONE, 'Generate translations.'],
             ['base', 'b', InputOption::VALUE_OPTIONAL, 'Namespace of class which will current class extend.'],
         ];
     }

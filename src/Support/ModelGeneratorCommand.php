@@ -2,6 +2,7 @@
 
 namespace Aqamarine\AlphaNews\Support;
 
+use Illuminate\Support\Str;
 use Nwidart\Modules\Commands\GeneratorCommand;
 use Nwidart\Modules\Support\Config\GenerateConfigReader;
 use Nwidart\Modules\Traits\ModuleCommandTrait;
@@ -27,6 +28,7 @@ abstract class ModelGeneratorCommand extends GeneratorCommand
             'CLASS_NAMESPACE' => $this->getClassNamespace($module),
             'MODULE' => $this->getModuleName(),
             'BASE_MODEL' => $this->getBaseModelPath(),
+            'MODEL_SNAKE' => Str::snake($this->getModelName()),
         ]))->render();
     }
 
@@ -67,6 +69,7 @@ abstract class ModelGeneratorCommand extends GeneratorCommand
     {
         return [
             ['force', 'f', InputOption::VALUE_NONE, 'Create the class even if the controller already exists'],
+            ['translations', 't', InputOption::VALUE_NONE, 'Will use translated version on model.'],
             ['base', 'b', InputOption::VALUE_OPTIONAL, 'Namespace of class which will current class extend.'],
         ];
     }

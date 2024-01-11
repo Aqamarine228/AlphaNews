@@ -15,6 +15,8 @@ class PostCategoryViewMakeCommand extends \Aqamarine\AlphaNews\Support\ViewGener
 
     protected function getStubName(): string
     {
-        return '/views/post-category-view.stub';
+        return $this->option('translations')
+            ? '/views/post-translations-category-view.stub'
+            : '/views/post-category-view.stub';
     }
 }

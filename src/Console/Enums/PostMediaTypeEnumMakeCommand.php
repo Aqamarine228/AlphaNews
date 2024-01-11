@@ -3,7 +3,6 @@
 namespace Aqamarine\AlphaNews\Console\Enums;
 
 use Aqamarine\AlphaNews\Support\Stub;
-use Illuminate\Support\Facades\File;
 
 class PostMediaTypeEnumMakeCommand extends \Nwidart\Modules\Commands\GeneratorCommand
 {

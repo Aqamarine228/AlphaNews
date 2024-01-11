@@ -1,5 +1,5 @@
 <form
-    action="{{ $model->exists ? route('$MODULE_LOWER$.$MODULE_LOWER$.post-category.update', $model->id) : route('$MODULE_LOWER$.post-category.store') }}"
+    action="{{ $model->exists ? route('$MODULE_LOWER$.post-category.update', $model->id) : route('$MODULE_LOWER$.post-category.store') }}"
     method="POST">
 
     @csrf

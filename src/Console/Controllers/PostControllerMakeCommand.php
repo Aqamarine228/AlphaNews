@@ -3,6 +3,7 @@
 namespace Aqamarine\AlphaNews\Console\Controllers;
 
 use Aqamarine\AlphaNews\Support\ControllerGeneratorCommand;
+use Symfony\Component\Console\Input\InputOption;
 
 class PostControllerMakeCommand extends ControllerGeneratorCommand
 {
@@ -17,6 +18,8 @@ class PostControllerMakeCommand extends ControllerGeneratorCommand
 
     protected function getStubName(): string
     {
-        return '/post-controller.stub';
+        return $this->option('translations')
+            ? '/post-translations-controller.stub'
+            : '/post-controller.stub';
     }
 }

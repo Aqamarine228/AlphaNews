@@ -4,6 +4,7 @@
    <div class="d-flex">
        Post
        <form class="ml-1" action="{{route('$MODULE_LOWER$.post.store')}}" method="post">
+           @csrf
            <button type="submit" class="btn btn-sm btn-primary">Create</button>
        </form>
    </div>

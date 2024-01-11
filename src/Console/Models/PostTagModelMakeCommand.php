@@ -17,6 +17,6 @@ class PostTagModelMakeCommand extends ModelGeneratorCommand
 
     protected function getStubName(): string
     {
-        return '/post-tag-model.stub';
+        return $this->option('translations') ? '/post-tag-translations-model.stub' : '/post-tag-model.stub';
     }
 }

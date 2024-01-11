@@ -17,6 +17,6 @@ class PostCategoryModelMakeCommand extends ModelGeneratorCommand
 
     protected function getStubName(): string
     {
-        return '/post-category-model.stub';
+        return $this->option('translations') ? '/post-category-translations-model.stub' : '/post-category-model.stub';
     }
 }

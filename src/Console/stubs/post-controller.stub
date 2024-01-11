@@ -224,7 +224,7 @@ class PostController extends \$BASE_CONTROLLER$
     {
         $post->delete();
         $this->showSuccessMessage('Post deleted successfully');
-        return redirect()->route('$MODULE_NAME$.posts.index');
+        return redirect()->route('$MODULE_NAME$.post.index');
     }
 
     private function getEmptyPost(mixed $user): mixed

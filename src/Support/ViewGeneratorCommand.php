@@ -59,6 +59,7 @@ abstract class ViewGeneratorCommand extends GeneratorCommand
     protected function getOptions(): array
     {
         return [
+            ['translations', 't', InputOption::VALUE_NONE, 'Creates translation files'],
             ['force', 'f', InputOption::VALUE_NONE, 'Create the class even if the controller already exists'],
         ];
     }

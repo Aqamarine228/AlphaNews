@@ -17,6 +17,6 @@ class PostModelMakeCommand extends ModelGeneratorCommand
 
     protected function getStubName(): string
     {
-        return '/post-model.stub';
+        return $this->option('translations') ? '/post-translations-model.stub' : '/post-model.stub';
     }
 }

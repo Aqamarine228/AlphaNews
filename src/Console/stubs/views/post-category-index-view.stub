@@ -32,8 +32,7 @@
                             <th>Preview</th>
                             <th>News count</th>
                             <th>Nested categories</th>
-                            <th></th>
-                            <th></th>
+                            <th width="160px"></th>
                         </tr>
                         </thead>
                         <tbody>

@@ -3,6 +3,14 @@
 namespace Aqamarine\AlphaNews;
 
 use Aqamarine\AlphaNews\Console\GenerateAllCommand;
+use Aqamarine\AlphaNews\Console\GenerateControllersCommand;
+use Aqamarine\AlphaNews\Console\GenerateEnumsCommand;
+use Aqamarine\AlphaNews\Console\GenerateMigrationsCommand;
+use Aqamarine\AlphaNews\Console\GenerateModelsCommand;
+use Aqamarine\AlphaNews\Console\GenerateRoutesCommand;
+use Aqamarine\AlphaNews\Console\GenerateViewsCommand;
+use Aqamarine\AlphaNews\Console\Models\LanguageModelMakeCommand;
+use Aqamarine\AlphaNews\Console\Models\PostTagModelMakeCommand;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider as ParentProvider;
 
@@ -12,7 +20,6 @@ class ServiceProvider extends ParentProvider
     {
         Paginator::useBootstrap();
         $this->registerCommands();
-        $this->registerMigrationsPublishing();
         $this->registerAssetPublishing();
         $this->registerConfigPublishing();
     }
@@ -55,18 +62,6 @@ class ServiceProvider extends ParentProvider
         $this->publishes([
             __DIR__ . '/../public' => public_path(),
         ], 'alphanews-assets');
-    }
-
-    /**
-     * Register the AlphaNews migrations publishing.
-     */
-    protected function registerMigrationsPublishing(): void
-    {
-        if (config('alphanews.register_migrations', true)) {
-            $this->publishes([
-                __DIR__ . '/../database/migrations' => database_path('migrations'),
-            ], 'alphanews-migrations');
-        }
     }
 
     /**

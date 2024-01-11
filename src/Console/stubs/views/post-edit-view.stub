@@ -61,15 +61,6 @@
 @push('scripts')
     <script src="{{asset('plugins/tinymce/tinymce.min.js')}}"></script>
     <script>
-        let contentPlugins = [
-            "textcolor colorpicker advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-            "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-            "save table contextmenu directionality emoticons template paste textcolor charactercount autosave preview code"
-        ];
-        let contentToolbar = "fontsizeselect | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons| code preview twitter_url | instagram";
-        initTinymce('#content', '300', {{ $post->id }}, contentToolbar, contentPlugins);
-    </script>
-    <script>
         function initTinymce(selector, height, newsId, toolbar, plugins) {
             tinymce.init({
                 setup: function (editor) {
@@ -285,5 +276,14 @@
         }
 
         App.init();
+    </script>
+    <script>
+            let contentPlugins = [
+                "textcolor colorpicker advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+                "save table contextmenu directionality emoticons template paste textcolor charactercount autosave preview code"
+            ];
+            let contentToolbar = "fontsizeselect | insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons| code preview twitter_url | instagram";
+            initTinymce('#content', '300', {{ $post->id }}, contentToolbar, contentPlugins);
     </script>
 @endpush

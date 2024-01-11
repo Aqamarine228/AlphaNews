@@ -51,7 +51,7 @@ class PostCategoryController extends \$BASE_CONTROLLER$
         ]);
         $this->showSuccessMessage('Category successfully created.');
 
-        return redirect()->route('$MODULE_NAME$.post-category.index');
+        return redirect()->route('$MODULE_NAME$.post-category.edit', $postCategory->id);
     }
 
     public function edit(PostCategory $postCategory): Factory|View|Application

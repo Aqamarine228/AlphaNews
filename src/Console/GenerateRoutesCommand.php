@@ -6,6 +6,7 @@ use Aqamarine\AlphaNews\Support\Stub;
 use Nwidart\Modules\Support\Config\GenerateConfigReader;
 use Nwidart\Modules\Traits\ModuleCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class GenerateRoutesCommand extends \Nwidart\Modules\Commands\GeneratorCommand
 {
@@ -35,7 +36,9 @@ class GenerateRoutesCommand extends \Nwidart\Modules\Commands\GeneratorCommand
 
     public function getStubName(): string
     {
-        return '/routes.stub';
+        return $this->option('translations')
+            ? '/routes-translations.stub'
+            : '/routes.stub';
     }
 
     public function getControllersNamespace(): string
@@ -54,6 +57,13 @@ class GenerateRoutesCommand extends \Nwidart\Modules\Commands\GeneratorCommand
     {
         return [
             ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+        ];
+    }
+
+    public function getOptions(): array
+    {
+        return [
+            ['translations', 't', InputOption::VALUE_NONE, 'Generate translations.'],
         ];
     }
 }
