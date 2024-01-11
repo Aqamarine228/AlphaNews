@@ -15,6 +15,8 @@ class PostTagsViewMakeCommand extends \Aqamarine\AlphaNews\Support\ViewGenerator
 
     protected function getStubName(): string
     {
-        return '/views/post-tags-view.stub';
+        return $this->option('translations')
+            ? '/views/post-translations-tags-view.stub'
+            : '/views/post-tags-view.stub';
     }
 }

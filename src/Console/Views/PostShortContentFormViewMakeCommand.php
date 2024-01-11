@@ -15,6 +15,8 @@ class PostShortContentFormViewMakeCommand extends \Aqamarine\AlphaNews\Support\V
 
     protected function getStubName(): string
     {
-        return '/views/post-short-content-form-view.stub';
+        return $this->option('translations')
+            ? '/views/post-translations-short-content-form-view.stub'
+            : '/views/post-short-content-form-view.stub';
     }
 }

@@ -10,10 +10,10 @@ return new class() extends Migration {
         Schema::create('post_language', static function (Blueprint $table) {
             $table->foreignId('post_id')->constrained();
             $table->string('language_code');
-            $table->string('title');
-            $table->text('content');
-            $table->string('short_title');
-            $table->string('short_content');
+            $table->string('title')->nullable();
+            $table->text('content')->nullable();
+            $table->string('short_title')->nullable();
+            $table->string('short_content')->nullable();
             $table->foreign('language_code')->references('code')->on('languages')->cascadeOnDelete();
         });
     }

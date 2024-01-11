@@ -18,6 +18,8 @@ class PostControllerMakeCommand extends ControllerGeneratorCommand
 
     protected function getStubName(): string
     {
-        return '/post-controller.stub';
+        return $this->option('translations')
+            ? '/post-translations-controller.stub'
+            : '/post-controller.stub';
     }
 }

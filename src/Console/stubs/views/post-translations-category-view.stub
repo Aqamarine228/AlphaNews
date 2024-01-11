@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Category</h3>
+    </div>
+    <div class="card-body">
+        <form id="post-update-category" action="{{ route('$MODULE_LOWER$.post.update.category', $post->id) }}" method="post">
+            @csrf
+            @method('put')
+
+            <select name="post_category_id" id="post_category_id" class="form-control  ">
+                <option value="" {{!$post->post_category_id ? "selected" : ""}}>
+                    None
+                </option>
+                @foreach($categories as $category)
+                    <option value="{{$category->id}}" {{$post->post_category_id === $category->id ? "selected" : ""}}>
+                        {{$category->translations->first()?->pivot->name}}
+                    </option>
+                @endforeach
+            </select>
+        </form>
+    </div>
+    <div class="card-footer">
+        <button form="post-update-category" class="btn btn-primary">Save</button>
+    </div>
+</div>

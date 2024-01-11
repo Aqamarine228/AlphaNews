@@ -20,6 +20,7 @@ use Throwable;
 use $MODELS_NAMESPACE$\Post;
 use $MODELS_NAMESPACE$\PostCategory;
 use $MODELS_NAMESPACE$\PostTag;
+use $MODELS_NAMESPACE$\Language;
 
 class PostController extends \$BASE_CONTROLLER$
 {
@@ -27,6 +28,14 @@ class PostController extends \$BASE_CONTROLLER$
     {
         $posts = Post::where('author_id', $request->user()->id)
             ->latest()
+            ->with(['translations' => static function ($query) {
+                $query->where('code', config('alphanews.default_language'));
+            }])
+            ->with([
+                'category' =>
+                    fn($q) => $q->with(['translations' =>
+                        fn($q) => $q->where('language_code', config('alphanews.default_language'))])
+            ])
             ->paginate(20);
 
         return $this->view('post.index', [
@@ -36,7 +45,16 @@ class PostController extends \$BASE_CONTROLLER$
 
     public function indexAllPosts(): Factory|View|Application
     {
-        $posts = Post::latest()->paginate(20);
+        $posts = Post::latest()
+            ->with(['translations' => static function ($query) {
+                $query->where('code', config('alphanews.default_language'));
+            }])
+            ->with([
+                'category' =>
+                    fn($q) => $q->with(['translations' =>
+                        fn($q) => $q->where('language_code', config('alphanews.default_language'))])
+            ])
+            ->paginate(20);
 
         return $this->view('post.index', [
             'posts' => $posts
@@ -45,11 +63,32 @@ class PostController extends \$BASE_CONTROLLER$
 
     public function edit(Request $request, Post $post): Factory|View|Application
     {
+        $languageCode = $request->get('language_code', config('alphanews.default_language'));
+        $languages = Language::all();
+        $language = Language::where('code', $languageCode)->first();
+
+        $post->load(['translations' => fn($q) => $q->where('language_code', $languageCode)]);
+
+        $tags = PostTag::with(['translations' => static function ($query) {
+            $query->where('code', config('alphanews.default_language'));
+        }])->whereNotIn('id', $post->tags()->pluck('id')->toArray())->get()->map(fn($q) => [
+            'id' => $q->id,
+            'name' => $q->translations->first()?->pivot->name,
+        ]);
+
+        $postTags = $post->tags()->with(['translations' => static function ($query) {
+            $query->where('code', config('alphanews.default_language'));
+        }])->get()->map(fn($q) => ['name' => $q->translations->first()?->pivot->name, 'id' => $q->id])->toArray();
+
         return $this->view('post.edit', [
             'post' => $post,
-            'tags' => PostTag::select(['id', 'name'])->when(request()->get('q'), function ($query, $search) {$query->where('name', 'like', '%' . $search . '%');})->limit(5)->get(),
-            'categories' => PostCategory::pluck('name', 'id'),
-            'postTags' => $post->tags()->pluck('name'),
+            'languages' => $languages,
+            'language' => $language,
+            'tags' => $tags,
+            'categories' => PostCategory::with(['translations' => static function ($query) {
+                $query->where('code', config('alphanews.default_language'));
+            }])->get(),
+            'postTags' => array_column($postTags, 'name', 'id'),
             'postMediaTypes' => collect(PostMediaType::cases())->pluck('name', 'value')
         ]);
     }
@@ -81,9 +120,15 @@ class PostController extends \$BASE_CONTROLLER$
         $validated = $this->validate(request(), [
             'title' => 'nullable|string',
             'content' => 'nullable|string',
+            'language_code' => 'required|exists:languages,code'
         ]);
 
-        $post->update($validated);
+        $post
+            ->translations()
+            ->syncWithoutDetaching([$validated['language_code'] => [
+                'title' => $validated['title'],
+                'content' => $validated['content']
+            ]]);
 
         return back();
     }
@@ -96,9 +141,15 @@ class PostController extends \$BASE_CONTROLLER$
         $validated = $this->validate(request(), [
             'short_title' => 'nullable|string|max:255',
             'short_content' => 'nullable|string|max:255',
+            'language_code' => 'required|exists:languages,code'
         ]);
 
-        $post->update($validated);
+        $post
+            ->translations()
+            ->syncWithoutDetaching([$validated['language_code'] => [
+                    'short_title' => $validated['short_title'],
+                    'short_content' => $validated['short_content']
+                ]]);
 
         return back();
     }
@@ -129,7 +180,7 @@ class PostController extends \$BASE_CONTROLLER$
             ]
         ]);
 
-        $post->update($validated);
+        $post->update($validated ?? []);
 
         return back();
     }
@@ -182,12 +233,12 @@ class PostController extends \$BASE_CONTROLLER$
         $originalImage = $image->encode('png');
 
         Storage::put(
-                Config::get('alphanews.posts.filesystem.preview_images_path') . '/' . $fileName,
-                $previewImage->stream()
+            Config::get('alphanews.posts.filesystem.preview_images_path') . '/' . $fileName,
+            $previewImage->stream()
         );
         Storage::put(
-                Config::get('alphanews.posts.filesystem.original_images_path') . '/' . $fileName,
-                $originalImage->stream()
+            Config::get('alphanews.posts.filesystem.original_images_path') . '/' . $fileName,
+            $originalImage->stream()
         );
 
         return $fileName;
@@ -203,7 +254,7 @@ class PostController extends \$BASE_CONTROLLER$
             'tags.*' => 'required|string|max:255'
         ]);
 
-        $post->tags()->sync($this->getTagIdsByNames($validated['tags'] ?? []));
+        $post->tags()->sync($validated['tags'] ?? []);
 
         return back();
     }
@@ -217,25 +268,22 @@ class PostController extends \$BASE_CONTROLLER$
             ]);
         }
 
-        return redirect()->route('$MODULE_NAME$.post.edit', $post->id);
+        return redirect()->route('admin.post.edit', $post->id);
     }
 
     public function destroy(Post $post): RedirectResponse
     {
         $post->delete();
         $this->showSuccessMessage('Post deleted successfully');
-        return redirect()->route('$MODULE_NAME$.post.index');
+        return redirect()->route('admin.posts.index');
     }
 
     private function getEmptyPost(mixed $user): mixed
     {
         $emptyPost = Post::where('author_id', $user->id)
             ->whereNull('post_category_id')
-            ->whereNull('title')
-            ->whereNull('content')
-            ->whereNull('short_title')
-            ->whereNull('short_content')
             ->whereNull('picture')
+            ->whereDoesntHave('translations')
             ->latest()
             ->first();
 
@@ -244,18 +292,5 @@ class PostController extends \$BASE_CONTROLLER$
         }
 
         return null;
-    }
-
-    private function getTagIdsByNames(array $names): array
-    {
-        $ids = [];
-        foreach ($names as $name) {
-            $tag = PostTag::firstOrCreate([
-                'name' => Str::snake($name),
-            ]);
-            $ids[] = $tag->id;
-        }
-
-        return $ids;
     }
 }

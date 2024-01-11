@@ -61,17 +61,35 @@ class GenerateViewsCommand extends Command
     {
         $this->call(PostActionsViewMakeCommand::class, ['module' => $module]);
         $this->call(PostAddToTopViewMakeCommand::class, ['module' => $module]);
-        $this->call(PostContentFormViewMakeCommand::class, ['module' => $module]);
+        $this->call(
+            PostContentFormViewMakeCommand::class,
+            ['module' => $module, '--translations' => $this->option('translations')]
+        );
         $this->call(PostCropImageModalMakeCommand::class, ['module' => $module]);
-        $this->call(PostEditViewMakeCommand::class, ['module' => $module]);
+        $this->call(
+            PostEditViewMakeCommand::class,
+            ['module' => $module, '--translations' => $this->option('translations')]
+        );
         $this->call(PostImageViewMakeCommand::class, ['module' => $module]);
-        $this->call(PostIndexViewMakeCommand::class, ['module' => $module]);
+        $this->call(
+            PostIndexViewMakeCommand::class,
+            ['module' => $module, '--translations' => $this->option('translations')]
+        );
         $this->call(PostMediaTypeViewMakeCommand::class, ['module' => $module]);
         $this->call(PostPublishViewMakeCommand::class, ['module' => $module]);
-        $this->call(PostShortContentFormViewMakeCommand::class, ['module' => $module]);
+        $this->call(
+            PostShortContentFormViewMakeCommand::class,
+            ['module' => $module, '--translations' => $this->option('translations')]
+        );
         $this->call(PostStatusViewMakeCommand::class, ['module' => $module]);
-        $this->call(PostTagsViewMakeCommand::class, ['module' => $module]);
-        $this->call(PostCategoryViewMakeCommand::class, ['module' => $module]);
+        $this->call(
+            PostTagsViewMakeCommand::class,
+            ['module' => $module, '--translations' => $this->option('translations')]
+        );
+        $this->call(
+            PostCategoryViewMakeCommand::class,
+            ['module' => $module, '--translations' => $this->option('translations')]
+        );
     }
 
     private function generatePostCategoryViews(string $module): void

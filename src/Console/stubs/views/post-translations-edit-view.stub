@@ -204,7 +204,7 @@
         const tags = @json($tags, JSON_THROW_ON_ERROR);
         let results = tags.map((item) => {
             return {
-                id: item.name,
+                id: item.id,
                 text: item.name
             }
         });

@@ -31,8 +31,8 @@
                         <tbody>
                         @foreach($posts as $post)
                             <tr>
-                                <td>{{ $post->title ?? '-' }}</td>
-                                <td>{{ $post->category->name ?? '' }}</td>
+                                <td>{{ $post->translations->first()?->pivot->title ?? '-' }}</td>
+                                <td>{{ $post->category?->translations->first()?->pivot->name ?? '' }}</td>
                                 <td>
                                     @if ($post->published_at === null)
                                         <span class="badge badge-warning">Not published</span>

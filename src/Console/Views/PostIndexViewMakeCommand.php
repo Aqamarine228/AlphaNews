@@ -15,6 +15,8 @@ class PostIndexViewMakeCommand extends \Aqamarine\AlphaNews\Support\ViewGenerato
 
     protected function getStubName(): string
     {
-        return '/views/post-index-view.stub';
+        return $this->option('translations')
+            ? '//views/post-translations-index-view.stub'
+            : '/views/post-index-view.stub';
     }
 }
